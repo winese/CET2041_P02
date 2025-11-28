@@ -32,6 +32,8 @@ public class Employees {
 
     @OneToMany(mappedBy = "employees")
     private List<Salaries> salaries;
+    @OneToMany(mappedBy = "employees")
+    private List<Titles> titles;
 
 //    public Employee() {}
 //    public Employee(int emp_no) {
