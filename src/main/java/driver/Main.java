@@ -21,36 +21,38 @@ public class Main {
 
     public static void main(String[] args) {
         // overriding the existing properties in persistence.xml
-        Map<String,String> persistenceMap = new HashMap<>();
-        persistenceMap.put("jakarta.persistence.jdbc.url",
-                "jdbc:mariadb://localhost:3306/"+DBNAME);
+//        Map<String,String> persistenceMap = new HashMap<>();
+//        persistenceMap.put("jakarta.persistence.jdbc.url",
+//                "jdbc:mariadb://localhost:3306/"+DBNAME);
+//
+//        EntityManagerFactory emf =
+//                Persistence.createEntityManagerFactory("EmployeesPU", persistenceMap);
+//        EntityManager em = emf.createEntityManager();
 
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("EmployeesPU", persistenceMap);
-        EntityManager em = emf.createEntityManager();
+//        EmployeesRepo employeesRepo = new EmployeesRepo(em);
+//        Employees emp = null;
+//
+//        DepartmentsRepo depRepo = new DepartmentsRepo(em);
+//        Departments dep = null;
+//
+//        SalariesRepo salariesRepo = new SalariesRepo(em);
+//        List<Salaries> salaries = null;
+//
+//        TitlesRepo titlesRepo = new TitlesRepo(em);
+//        List<Titles> titles = null;
 
-        EmployeesRepo employeesRepo = new EmployeesRepo(em);
-        Employees emp = null;
-
-        DepartmentsRepo depRepo = new DepartmentsRepo(em);
-        Departments dep = null;
-
-        SalariesRepo salariesRepo = new SalariesRepo(em);
-        List<Salaries> salaries = null;
-
-        TitlesRepo titlesRepo = new TitlesRepo(em);
-        List<Titles> titles = null;
+//        DepartmentsRepo depRepo = new DepartmentsRepo(em);
 
 
         // 1. find a specific employee
 //        emp = employeesRepo.findEmployee(10001);
 //        System.out.println("Found " + emp);
 
-        salaries = salariesRepo.findEmployeeSalariesWithHistories(10001);
-        System.out.println("Found " + salaries);
-
-        titles = titlesRepo.findEmployeeTitlesWithHistories(10001);
-        System.out.println("Found " + titles);
+//        salaries = salariesRepo.findEmployeeSalariesWithHistories(10001);
+//        System.out.println("Found " + salaries);
+//
+//        titles = titlesRepo.findEmployeeTitlesWithHistories(10001);
+//        System.out.println("Found " + titles);
 
 //        em.getTransaction().begin();
 //        //  create and persist an employee
@@ -78,17 +80,19 @@ public class Main {
 //        System.out.println("Removed Employee 158");
 
 
-        // ! Departments testing below
 
-        // 1. Create new departments
+        // ENDPOINT 1. find all department numbers and names
+//        List<Departments> allDeps = null;
+//        allDeps = em.createQuery(depRepo.findAllDepartments(), Departments.class).getResultList();
+//        System.out.println(allDeps);
+
+        DepartmentsRepo depRepo = new DepartmentsRepo();
+        depRepo.findAllDepartments();
 
 
-        // 2. Find a department by attribute
-        System.out.println("Found department: " +
-                depRepo.findDepartmentNo("d005"));
-
-        System.out.println("Found department: " +
-                depRepo.findDepartmentName("Finance"));
+        // 2. Find a department by pri key
+//        System.out.println("Found department: " +
+//                depRepo.findDepartment("d005"));
 
         // 3. Get all departments
 
@@ -106,7 +110,7 @@ public class Main {
 
 
         // close the EM and EMF when done
-        em.close();
-        emf.close();
+//        em.close();
+//        emf.close();
     }
 }

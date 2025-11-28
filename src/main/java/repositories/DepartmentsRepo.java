@@ -1,13 +1,21 @@
 package repositories;
 
+import EntityManagerFactory.AppEntityManagerFactory;
 import entities.Departments;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
+import java.util.List;
 
 public class DepartmentsRepo {
-    protected EntityManager em;
-    public DepartmentsRepo(EntityManager em) {
-        this.em = em;
-    }
+//    protected EntityManager em;
+//
+//    public DepartmentsRepo(EntityManager em) {
+//        this.em = em;
+//    }
+
+    private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
+    EntityManager em = emf.createEntityManager();
 
     public Departments createDepartment(String deptNo, String deptName){
         Departments department = new Departments();
@@ -32,12 +40,16 @@ public class DepartmentsRepo {
         }
     }
 
-    public Departments findDepartmentNo(String deptNo){
+    public Departments findDepartment(String deptNo){
         return em.find(Departments.class, deptNo);
     }
 
-    public Departments findDepartmentName(String deptName){
-        return em.find(Departments.class, deptName);
+    public void findAllDepartments(){
+        List<Departments> allDeps = null;
+        allDeps = em.createQuery("SELECT d FROM Departments d",
+                Departments.class).getResultList();
+        System.out.println(allDeps);
+
     }
 
 }
