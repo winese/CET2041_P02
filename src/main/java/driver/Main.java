@@ -2,6 +2,7 @@ package driver;
 
 import entities.Departments;
 import entities.Salaries;
+import entities.Titles;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -9,6 +10,7 @@ import entities.Employees;
 import repositories.DepartmentsRepo;
 import repositories.EmployeesRepo;
 import repositories.SalariesRepo;
+import repositories.TitlesRepo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +38,9 @@ public class Main {
         SalariesRepo salariesRepo = new SalariesRepo(em);
         List<Salaries> salaries = null;
 
+        TitlesRepo titlesRepo = new TitlesRepo(em);
+        List<Titles> titles = null;
+
 
         // 1. find a specific employee
         emp = employeesRepo.findEmployee(10001);
@@ -43,6 +48,9 @@ public class Main {
 
         salaries = salariesRepo.findEmployeeSalariesWithHistories(10001);
         System.out.println("Found " + salaries);
+
+        titles = titlesRepo.findEmployeeTitlesWithHistories(10001);
+        System.out.println("Found " + titles);
 
 //        em.getTransaction().begin();
 //        //  create and persist an employee

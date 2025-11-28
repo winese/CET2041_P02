@@ -1,16 +1,17 @@
 package repositories;
 
 import entities.Salaries;
+import entities.Titles;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class SalariesRepo {
+public class TitlesRepo {
     protected EntityManager em;
 
-    public SalariesRepo(EntityManager em) {
+    public TitlesRepo(EntityManager em) {
         this.em = em;
     }
 
@@ -37,9 +38,9 @@ public class SalariesRepo {
 //        return emp;
 //    }
 //
-    public List<Salaries> findEmployeeSalariesWithHistories(int empNo) {
-        TypedQuery<Salaries> query = em.createQuery(
-                  "SELECT s FROM Salaries s WHERE s.salaryId.empNo = :empNo", Salaries.class);
+    public List<Titles> findEmployeeTitlesWithHistories(int empNo) {
+        TypedQuery<Titles> query = em.createQuery(
+                "SELECT s FROM Titles s WHERE s.titleId.empNo = :empNo", Titles.class);
         query.setParameter("empNo", empNo);
         return query.getResultList();
     }
