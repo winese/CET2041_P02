@@ -43,8 +43,8 @@ public class Main {
 
 
         // 1. find a specific employee
-        emp = employeesRepo.findEmployee(10001);
-        System.out.println("Found " + emp);
+//        emp = employeesRepo.findEmployee(10001);
+//        System.out.println("Found " + emp);
 
         salaries = salariesRepo.findEmployeeSalariesWithHistories(10001);
         System.out.println("Found " + salaries);
@@ -85,7 +85,10 @@ public class Main {
 
         // 2. Find a department by attribute
         System.out.println("Found department: " +
-                depRepo.findDepartment("d009"));
+                depRepo.findDepartmentNo("d005"));
+
+        System.out.println("Found department: " +
+                depRepo.findDepartmentName("Finance"));
 
         // 3. Get all departments
 

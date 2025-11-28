@@ -32,8 +32,12 @@ public class DepartmentsRepo {
         }
     }
 
-    public Departments findDepartment(String deptNo){
+    public Departments findDepartmentNo(String deptNo){
         return em.find(Departments.class, deptNo);
+    }
+
+    public Departments findDepartmentName(String deptName){
+        return em.find(Departments.class, deptName);
     }
 
 }

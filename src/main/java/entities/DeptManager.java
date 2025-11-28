@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name="dept_manager")
+@IdClass(DeptManagerId.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,6 +17,9 @@ public class DeptManager {
     @Id
     @Column(name="emp_no")
     private int empNo;
+    @Id
+    @Column(name="dept_no")
+    private String deptNo;
     @Column(name="from_date")
     private LocalDate fromDate;
     @Column(name="to_date")
