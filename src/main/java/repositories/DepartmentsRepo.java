@@ -8,11 +8,6 @@ import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 
 public class DepartmentsRepo {
-//    protected EntityManager em;
-//
-//    public DepartmentsRepo(EntityManager em) {
-//        this.em = em;
-//    }
 
     private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
     EntityManager em = emf.createEntityManager();

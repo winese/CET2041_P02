@@ -20,6 +20,11 @@ public class Main {
     static final String DBNAME = "employees";
 
     public static void main(String[] args) {
+
+        DepartmentsRepo depRepo = new DepartmentsRepo();
+        depRepo.findAllDepartments();
+
+
         // overriding the existing properties in persistence.xml
 //        Map<String,String> persistenceMap = new HashMap<>();
 //        persistenceMap.put("jakarta.persistence.jdbc.url",
@@ -85,9 +90,6 @@ public class Main {
 //        List<Departments> allDeps = null;
 //        allDeps = em.createQuery(depRepo.findAllDepartments(), Departments.class).getResultList();
 //        System.out.println(allDeps);
-
-        DepartmentsRepo depRepo = new DepartmentsRepo();
-        depRepo.findAllDepartments();
 
 
         // 2. Find a department by pri key
