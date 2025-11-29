@@ -24,6 +24,12 @@ public class Main {
         DepartmentsRepo depRepo = new DepartmentsRepo();
         depRepo.findAllDepartments();
 
+        EmployeesRepo employeesRepo = new EmployeesRepo();
+        System.out.println("Found " + employeesRepo.findEmployee(10001));
+
+        //EmployeesRepo employeesRepo = new EmployeesRepo();
+//        System.out.println("Found " + employeesRepo.findAllEmployees());
+
 
         // overriding the existing properties in persistence.xml
 //        Map<String,String> persistenceMap = new HashMap<>();

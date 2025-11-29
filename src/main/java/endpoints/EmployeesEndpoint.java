@@ -1,30 +1,29 @@
 package endpoints;
 
-import entities.Departments;
-import entities.Employees;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import entities.Departments;
+import entities.Employees;
 import repositories.DepartmentsRepo;
 import repositories.EmployeesRepo;
-
 
 @Path("/employees")
 public class EmployeesEndpoint {
 
+    //can remove later
     @GET
     @Path("/ping")
     public Response ping() {
         return Response.ok().entity("Service online").build();
     }
 
+    //sample code
     @GET
     @Path("/getDepartment")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNotification() {
+    public Response searchDepartment() {
         DepartmentsRepo departmentsRepo = new DepartmentsRepo();
         Departments dep = null;
         dep = departmentsRepo.findDepartment("d009");
@@ -33,15 +32,19 @@ public class EmployeesEndpoint {
                 .build();
     }
 
-//    public Response getNotification(@PathParam("empNo") int empNo) {
-//        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-//        Departments dep = null;
-//        dep = departmentsRepo.findDepartment("d009");
-//        return Response.ok()
-//                .entity(dep)
-//                .build();
-//    }
-//
+    //endpoint 2
+    @GET
+    @Path("/searchEmployee")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchEmployee(@QueryParam("empNo") int empNo) {
+        EmployeesRepo employeesRepo = new EmployeesRepo();
+        Employees emp = null;
+        emp = employeesRepo.findEmployee(empNo);
+        return Response.ok()
+                .entity(emp)
+                .build();
+    }
+
 //    @POST
 //    @Path("/post/")
 //    @Consumes(MediaType.APPLICATION_JSON)

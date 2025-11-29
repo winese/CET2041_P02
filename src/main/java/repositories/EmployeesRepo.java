@@ -2,13 +2,15 @@ package repositories;
 
 import jakarta.persistence.EntityManager;
 import entities.Employees;
+import jakarta.persistence.EntityManagerFactory;
+import EntityManagerFactory.AppEntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class EmployeesRepo {
-    protected EntityManager em;
-
-    public EmployeesRepo(EntityManager em) {
-        this.em = em;
-    }
+    private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
+    EntityManager em = emf.createEntityManager();
 
 //    public Employee createEmployee(int id, String name, long salary) {
 //        Employee emp = new Employee(id);
@@ -36,10 +38,10 @@ public class EmployeesRepo {
     public Employees findEmployee(int empNo) {
         return em.find(Employees.class, empNo);
     }
-//
-//    public List<Employee> findAllEmployees() {
-//        TypedQuery<Employee> query = em.createQuery(
-//                  "SELECT e FROM Employee e", Employee.class);
-//        return query.getResultList();
-//    }
+
+    public List<Employees> findAllEmployees() {
+        TypedQuery<Employees> query = em.createQuery(
+                  "SELECT e FROM Employees e", Employees.class);
+        return query.getResultList();
+    }
 }
