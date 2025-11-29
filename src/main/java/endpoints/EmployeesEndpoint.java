@@ -40,9 +40,11 @@ public class EmployeesEndpoint {
         EmployeesRepo employeesRepo = new EmployeesRepo();
         Employees emp = null;
         emp = employeesRepo.findEmployee(empNo);
-        return Response.ok()
-                .entity(emp)
-                .build();
+        if (emp != null) {
+            return Response.ok().entity(emp).build();
+        } else {
+            return Response.noContent().build();
+        }
     }
 
 //    @POST

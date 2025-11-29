@@ -38,10 +38,4 @@ public class EmployeesRepo {
     public Employees findEmployee(int empNo) {
         return em.find(Employees.class, empNo);
     }
-
-    public List<Employees> findAllEmployees() {
-        TypedQuery<Employees> query = em.createQuery(
-                  "SELECT e FROM Employees e", Employees.class);
-        return query.getResultList();
-    }
 }
