@@ -61,18 +61,18 @@ public class EmployeesEndpoint {
         }
     }
 
-    @GET
-    @Path("/endPoint3PlaceHolderName")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response endPoint3PlaceHolder() {
-        EmployeesRepo employeesRepo = new EmployeesRepo();
-        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-        List<Integer> empNo =
-                departmentsRepo.findAllEmployeesInDepartment("deptNo");
-        List<Employees> employees = null;
+//    @GET
+//    @Path("/endPoint3PlaceHolderName")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response endPoint3PlaceHolder() {
+//        EmployeesRepo employeesRepo = new EmployeesRepo();
+//        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
+//        List<Integer> empNo =
+//                departmentsRepo.findAllEmployeesInDepartment("deptNo");
+//        List<Employees> employees = null;
 
 
-    }
+    //}
 
 //    @POST
 //    @Path("/post/")
