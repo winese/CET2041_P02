@@ -14,7 +14,4 @@ public class EndPoint3DTO {
     private String firstName;
     private String lastName;
     private LocalDate hireDate;
-
-
-
 }

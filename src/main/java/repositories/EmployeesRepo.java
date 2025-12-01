@@ -1,5 +1,6 @@
 package repositories;
 
+import entities.DeptEmployees;
 import jakarta.persistence.EntityManager;
 import entities.Employees;
 import jakarta.persistence.EntityManagerFactory;
@@ -38,14 +39,22 @@ public class EmployeesRepo {
     public Employees findEmployee(int empNo) {
         return em.find(Employees.class, empNo);
     }
-//
-//    public Employees findEndPoint3Infos(int empNo) {
-//        return em.createQuery("SELECT e.empNo, " +
-//                                    "e.firstName, " +
-//                                    "e.lastName, " +
-//                                    "e.hireDate " +
-//                                "FROM Employees e " +
-//                                "WHERE e.empNo = :empNo",
-//                Employees.class).setParameter("empNo", empNo).getSingleResult();
-//    }
+
+    public List<entities.DeptEmployees> findEndPoint3Infos(int deptNo) {
+        return em.createNamedQuery("Employees.endPoint3", DeptEmployees.class)
+                .setParameter("deptNo", deptNo)
+                .getResultList();
+    }
+
+    public List<entities.DeptEmployees> findEndPoint3Infos(int deptNo,
+                                                           int pgNo) {
+        return em.createNamedQuery("Employees.endPoint3", DeptEmployees.class)
+                .setParameter("deptNo", deptNo)
+                .setMaxResults(20)
+                .setFirstResult((pgNo - 1) * 20)
+                .getResultList();
+    }
+
+
+
 }

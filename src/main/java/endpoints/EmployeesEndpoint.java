@@ -1,5 +1,7 @@
 package endpoints;
 
+import DTO.EndPoint3DTO;
+import entities.DeptEmployees;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -42,8 +44,8 @@ public class EmployeesEndpoint {
         DepartmentsRepo departmentsRepo = new DepartmentsRepo();
         List<Departments> allDeps = null;
         allDeps = departmentsRepo.findAllDepartments();
-        if (allDeps.isEmpty()) return Response.status(Response.Status.NO_CONTENT).build();
-        else return Response.ok().entity(allDeps).build();
+        if (allDeps!=null) return Response.ok().entity(allDeps).build();
+        else return Response.noContent().build();
     }
 
     //endpoint 2
@@ -61,18 +63,19 @@ public class EmployeesEndpoint {
         }
     }
 
-//    @GET
-//    @Path("/endPoint3PlaceHolderName")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response endPoint3PlaceHolder() {
-//        EmployeesRepo employeesRepo = new EmployeesRepo();
-//        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-//        List<Integer> empNo =
-//                departmentsRepo.findAllEmployeesInDepartment("deptNo");
-//        List<Employees> employees = null;
-
-
-    //}
+    @GET
+    @Path("/endPoint3PlaceHolderName")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response endPoint3PlaceHolder(int deptNo) {
+        EmployeesRepo employeesRepo = new EmployeesRepo();
+        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
+        List<DeptEmployees> results = employeesRepo.findEndPoint3Infos(deptNo);
+        if (results != null) {
+            return Response.ok().entity(results).build();
+        } else {
+            return Response.noContent().build();
+        }
+    }
 
 //    @POST
 //    @Path("/post/")
