@@ -1,23 +1,31 @@
 package entities;
 
+import lombok.*;
+
 import java.io.Serializable;
 import java.time.LocalDate;
-import jakarta.persistence.*;
-import lombok.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
-@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class SalaryId implements Serializable {
-    @Column(name = "emp_no")
-    @JsonIgnore
     private int empNo;
-    @Column(name = "from_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate fromDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SalaryId s = (SalaryId) o;
+        if (!Objects.equals(fromDate, s.fromDate)) return false;
+        return empNo == s.empNo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(empNo, fromDate);
+    }
 }

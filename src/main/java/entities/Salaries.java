@@ -8,16 +8,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="salaries")
+@IdClass(SalaryId.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class Salaries {
-    @EmbeddedId
-    private SalaryId salaryId;
+    @Id
+    @JsonIgnore
+    @Column(name="emp_no")
+    private int empNo;
     @Column(name = "salary")
     private int salary;
+    @Id
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Column(name="from_date")
+    private LocalDate fromDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "to_date")
     private LocalDate toDate;

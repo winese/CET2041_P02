@@ -8,14 +8,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="titles")
+@IdClass(TitleId.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class Titles {
-    @EmbeddedId
-    private TitleId titleId;
+    @Id
+    @JsonIgnore
+    @Column(name="emp_no")
+    private int empNo;
+    @Id
+    @Column(name="title")
+    private String title;
+    @Id
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Column(name="from_date")
+    private LocalDate fromDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "to_date")
     private LocalDate toDate;
