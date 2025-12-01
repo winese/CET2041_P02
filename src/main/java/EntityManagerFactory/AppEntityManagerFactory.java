@@ -3,8 +3,6 @@ package EntityManagerFactory;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.util.Map;
-
 public class AppEntityManagerFactory {
     private static EntityManagerFactory emf;
 
@@ -16,7 +14,4 @@ public class AppEntityManagerFactory {
         return emf;
     }
 
-//    public EntityManager createEntityManager() {
-//        return
-//    }
 }

@@ -38,4 +38,14 @@ public class EmployeesRepo {
     public Employees findEmployee(int empNo) {
         return em.find(Employees.class, empNo);
     }
+//
+//    public Employees findEndPoint3Infos(int empNo) {
+//        return em.createQuery("SELECT e.empNo, " +
+//                                    "e.firstName, " +
+//                                    "e.lastName, " +
+//                                    "e.hireDate " +
+//                                "FROM Employees e " +
+//                                "WHERE e.empNo = :empNo",
+//                Employees.class).setParameter("empNo", empNo).getSingleResult();
+//    }
 }

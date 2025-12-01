@@ -2,6 +2,8 @@ package repositories;
 
 import EntityManagerFactory.AppEntityManagerFactory;
 import entities.Departments;
+import entities.DeptEmployees;
+import entities.Employees;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -39,12 +41,25 @@ public class DepartmentsRepo {
         return em.find(Departments.class, deptNo);
     }
 
-    public void findAllDepartments(){
-        List<Departments> allDeps = null;
-        allDeps = em.createQuery("SELECT d FROM Departments d",
+    public List<Departments> findAllDepartments(){
+        return em.createQuery("SELECT d FROM Departments d",
                 Departments.class).getResultList();
-        System.out.println(allDeps);
 
     }
+
+//    public void endPoint3(String deptNo){
+//        Departments dep = em.find(Departments.class, deptNo);
+//
+//    }
+//
+//    public void endPoints3(String deptNo, int pageNo){
+//        Departments dep = em.find(Departments.class, deptNo);
+//    }
+//
+//    public List<DeptEmployees> findAllEmployeesInDepartment(String deptNo){
+//        return em.createQuery("SELECT d FROM DeptEmployees d " +
+//                        "WHERE d.deptNo = deptNo",
+//                DeptEmployees.class).getResultList();
+//    }
 
 }

@@ -9,6 +9,8 @@ import entities.Employees;
 import repositories.DepartmentsRepo;
 import repositories.EmployeesRepo;
 
+import java.util.List;
+
 @Path("/employees")
 public class EmployeesEndpoint {
 
@@ -32,6 +34,18 @@ public class EmployeesEndpoint {
                 .build();
     }
 
+    //endpoint 1
+    @GET
+    @Path("/getAllDepartments")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchAllDepartments() {
+        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
+        List<Departments> allDeps = null;
+        allDeps = departmentsRepo.findAllDepartments();
+        if (allDeps.isEmpty()) return Response.status(Response.Status.NO_CONTENT).build();
+        else return Response.ok().entity(allDeps).build();
+    }
+
     //endpoint 2
     @GET
     @Path("/searchEmployee")
@@ -45,6 +59,19 @@ public class EmployeesEndpoint {
         } else {
             return Response.noContent().build();
         }
+    }
+
+    @GET
+    @Path("/endPoint3PlaceHolderName")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response endPoint3PlaceHolder() {
+        EmployeesRepo employeesRepo = new EmployeesRepo();
+        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
+        List<Integer> empNo =
+                departmentsRepo.findAllEmployeesInDepartment("deptNo");
+        List<Employees> employees = null;
+
+
     }
 
 //    @POST

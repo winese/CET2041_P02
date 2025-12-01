@@ -24,12 +24,11 @@ public class Main {
         DepartmentsRepo depRepo = new DepartmentsRepo();
         depRepo.findAllDepartments();
 
-        EmployeesRepo employeesRepo = new EmployeesRepo();
-        System.out.println("Found " + employeesRepo.findEmployee(10001));
+//        EmployeesRepo employeesRepo = new EmployeesRepo();
+//        System.out.println("Found " + employeesRepo.findEmployee(10001));
 
         //EmployeesRepo employeesRepo = new EmployeesRepo();
 //        System.out.println("Found " + employeesRepo.findAllEmployees());
-
 
         // overriding the existing properties in persistence.xml
 //        Map<String,String> persistenceMap = new HashMap<>();
@@ -53,7 +52,6 @@ public class Main {
 //        List<Titles> titles = null;
 
 //        DepartmentsRepo depRepo = new DepartmentsRepo(em);
-
 
         // 1. find a specific employee
 //        emp = employeesRepo.findEmployee(10001);
@@ -90,34 +88,12 @@ public class Main {
 //        em.getTransaction().commit();
 //        System.out.println("Removed Employee 158");
 
-
-
         // ENDPOINT 1. find all department numbers and names
 //        List<Departments> allDeps = null;
 //        allDeps = em.createQuery(depRepo.findAllDepartments(), Departments.class).getResultList();
 //        System.out.println(allDeps);
 
 
-        // 2. Find a department by pri key
-//        System.out.println("Found department: " +
-//                depRepo.findDepartment("d005"));
-
-        // 3. Get all departments
-
-
-        // 4. update department by attribute
-
-
-        // 5. update department Manager
-
-
-        // 6. update department employee
-
-
-        // 7. Delete department
-
-
-        // close the EM and EMF when done
 //        em.close();
 //        emf.close();
     }
