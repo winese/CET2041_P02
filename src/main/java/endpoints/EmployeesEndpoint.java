@@ -1,17 +1,16 @@
 package endpoints;
 
 import DTO.EndPoint3DTO;
-import entities.DeptEmployees;
+import DTO.Promotion;
+import entities.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import entities.Departments;
-import entities.Employees;
-import repositories.DepartmentsRepo;
-import repositories.EmployeesRepo;
+import repositories.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Path("/employees")
 public class EmployeesEndpoint {
@@ -44,7 +43,7 @@ public class EmployeesEndpoint {
         DepartmentsRepo departmentsRepo = new DepartmentsRepo();
         List<Departments> allDeps = null;
         allDeps = departmentsRepo.findAllDepartments();
-        if (allDeps!=null) return Response.ok().entity(allDeps).build();
+        if (allDeps != null) return Response.ok().entity(allDeps).build();
         else return Response.noContent().build();
     }
 
@@ -66,9 +65,10 @@ public class EmployeesEndpoint {
     @GET
     @Path("/endPoint3PlaceHolderName")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo) {
+    public Response endPoint3PlaceHolder(@QueryParam("deptNo") int deptNo) {
         EmployeesRepo employeesRepo = new EmployeesRepo();
-        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo);
+        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
+        List<DeptEmployees> results = employeesRepo.findEndPoint3Infos(deptNo);
         if (results != null) {
             return Response.ok().entity(results).build();
         } else {
@@ -76,19 +76,59 @@ public class EmployeesEndpoint {
         }
     }
 
-    @GET
-    @Path("/endPoint3PlaceHolderName2")
+    //endpoint 4
+    @POST
+    @Path("/promoteEmployee")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
-                                         @QueryParam("pgNo") int pgNo) {
-        EmployeesRepo employeesRepo = new EmployeesRepo();
-        List<DeptEmployees> results = employeesRepo.findEndPoint3Infos(deptNo, pgNo);
-        if (results != null) {
-            return Response.ok().entity(results).build();
+    public Response promoteEmployee(Promotion promotion) {
+        if (promotion != null) {
+            if (promotion.getEmpNo() != 0) {
+                EmployeesRepo employeesRepo = new EmployeesRepo();
+                Employees emp = null;
+                emp = employeesRepo.findEmployee(promotion.getEmpNo());
+                if (emp != null) {
+                    DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
+                    DeptEmployees currDeptEmployees = null;
+                    DeptEmployees newDeptEmployees = null;
+                    currDeptEmployees = deptEmployeesRepo.queryLatestDept(promotion.getEmpNo());
+                    String deptNo = currDeptEmployees.getDeptNo();
+
+                    if (promotion.getDeptNo() != null) {
+                        if (!Objects.equals(deptNo, promotion.getDeptNo())) {
+                            deptNo = promotion.getDeptNo();
+                        }
+                        newDeptEmployees = deptEmployeesRepo.insertNewDept(deptNo, promotion.getEmpNo());
+                    }
+
+                    if (promotion.getRaise() != 0) {
+                        SalariesRepo salariesRepo = new SalariesRepo();
+                        Salaries salary = null;
+                        salary = salariesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
+                    }
+
+                    if (!Objects.equals(promotion.getTitle(), "")) {
+                        TitlesRepo titlesRepo = new TitlesRepo();
+                        Titles title = null;
+                        title = titlesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
+
+                        if (promotion.getTitle().toLowerCase().contains("manager")) {
+                            DeptManagerRepo deptManagerRepo = new DeptManagerRepo();
+                            DeptManager deptManager = null;
+                            deptManager = deptManagerRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
+                        }
+                    }
+                    return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
+                }
+            } else {
+                return Response.noContent().build();
+            }
         } else {
             return Response.noContent().build();
         }
+        return  Response.ok().build();
     }
+
 
 //    @POST
 //    @Path("/post/")
