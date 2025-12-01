@@ -65,10 +65,23 @@ public class EmployeesEndpoint {
     @GET
     @Path("/endPoint3PlaceHolderName")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response endPoint3PlaceHolder(@QueryParam("deptNo") int deptNo) {
+    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo) {
         EmployeesRepo employeesRepo = new EmployeesRepo();
-        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-        List<DeptEmployees> results = employeesRepo.findEndPoint3Infos(deptNo);
+        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo);
+        if (results != null) {
+            return Response.ok().entity(results).build();
+        } else {
+            return Response.noContent().build();
+        }
+    }
+
+    @GET
+    @Path("/endPoint3PlaceHolderName")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
+                                         @QueryParam("pgNo")  int pgNo) {
+        EmployeesRepo employeesRepo = new EmployeesRepo();
+        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo, pgNo);
         if (results != null) {
             return Response.ok().entity(results).build();
         } else {
