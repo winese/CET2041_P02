@@ -12,14 +12,14 @@ import java.time.LocalDate;
 @IdClass(DeptEmployeesId.class)
 @AllArgsConstructor
 @NoArgsConstructor
-@NamedQuery(
-        name = "Employees.endPoint3",
-        query = "SELECT new DTO.EndPoint3DTO(" +
-                "e.empNo, e.firstName, e.lastName, e.hireDate)" +
-                "FROM DeptEmployees de " +
-                "JOIN de.employees e " +
-                "WHERE de.deptNo = :deptNo"
-)
+//@NamedQuery(
+//        name = "Employees.endPoint3",
+//        query = "SELECT new DTO.EndPoint3DTO(" +
+//                "e.empNo, e.firstName, e.lastName, e.hireDate)" +
+//                "FROM DeptEmployees de " +
+//                "JOIN de.employees e " +
+//                "WHERE de.deptNo = :deptNo"
+//)
 @Getter
 @Setter
 @ToString
@@ -46,5 +46,5 @@ public class DeptEmployees {
     @ManyToOne
     @MapsId ("deptNo")
     @JoinColumn(name="dept_no")
-    private Departments dept;
+    private Departments department;
 }

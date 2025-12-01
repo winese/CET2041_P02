@@ -12,6 +12,15 @@ import CustomEnum.Gender;
 @Table(name="employees")
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQuery(
+        name = "Employees.endPoint3",
+        query = "select new DTO.EndPoint3DTO(" +
+                "e.empNo, e.firstName, e.lastName, e.hireDate)" +
+                "from Employees e " +
+                "JOIN e.deptEmployees de " +
+                "JOIN de.department d " +
+                "WHERE d.deptNo = :deptNo"
+)
 @Getter
 @Setter
 @ToString

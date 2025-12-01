@@ -1,5 +1,6 @@
 package repositories;
 
+import DTO.EndPoint3DTO;
 import entities.DeptEmployees;
 import jakarta.persistence.EntityManager;
 import entities.Employees;
@@ -10,7 +11,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class EmployeesRepo {
-    private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
+    private final EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
     EntityManager em = emf.createEntityManager();
 
 //    public Employee createEmployee(int id, String name, long salary) {
@@ -40,16 +41,17 @@ public class EmployeesRepo {
         return em.find(Employees.class, empNo);
     }
 
-    public List<entities.DeptEmployees> findEndPoint3Infos(int deptNo) {
-        return em.createNamedQuery("Employees.endPoint3", DeptEmployees.class)
+    public List<EndPoint3DTO> findEndPoint3Infos(String deptNo) {
+        return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
                 .setParameter("deptNo", deptNo)
+                .setFirstResult(0)
+                .setMaxResults(20)
                 .getResultList();
     }
 
-    public List<entities.DeptEmployees> findEndPoint3Infos(int deptNo,
-                                                           int pgNo) {
+    public List<entities.DeptEmployees> findEndPoint3Infos(String deptNo, int pgNo) {
         return em.createNamedQuery("Employees.endPoint3", DeptEmployees.class)
-                .setParameter("deptNo", deptNo)
+                .setParameter(deptNo, deptNo)
                 .setMaxResults(20)
                 .setFirstResult((pgNo - 1) * 20)
                 .getResultList();

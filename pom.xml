@@ -12,7 +12,7 @@
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.0</version>
     </dependency>
 
     <!-- These next two are needed because we are using Tomcat, which  -->
@@ -22,21 +22,21 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
-      <version>3.1.1</version>
+      <version>3.1.7</version>
     </dependency>
 
     <!-- also needed for dependency injection -->
     <dependency>
       <groupId>org.glassfish.jersey.inject</groupId>
       <artifactId>jersey-hk2</artifactId>
-      <version>3.1.1</version>
+      <version>3.1.7</version>
     </dependency>
 
     <!-- support for using Jackson (JSON) with Jersey -->
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-json-jackson</artifactId>
-      <version>3.1.1</version>
+      <version>3.1.7</version>
     </dependency>
 
     <dependency>
@@ -67,6 +67,14 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.42</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.1.0</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
