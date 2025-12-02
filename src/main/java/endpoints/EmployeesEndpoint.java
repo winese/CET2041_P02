@@ -27,17 +27,6 @@ public class EmployeesEndpoint {
         return Response.ok().entity("Service online").build();
     }
 
-    //endpoint 1
-//    @GET
-//    @Path("/getAllDepartments")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response searchAllDepartments() {
-//        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-//        List<Departments> allDeps = departmentsRepo.findAllDepartments();
-//        if (allDeps != null) return Response.ok().entity(allDeps).build();
-//        else return Response.noContent().build();
-//    }
-
     // ! ENDPOINT 1
     @GET
     @Path("/getAllDepartments")
@@ -46,47 +35,29 @@ public class EmployeesEndpoint {
         return Response.ok().entity(service.getAllDepartments()).build();
     }
 
-    //endpoint 2
-//    @GET
-//    @Path("/searchEmployee")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response searchEmployee(@QueryParam("empNo") int empNo) {
-//        EmployeesRepoOld employeesRepo = new EmployeesRepoOld();
-//        Employees emp = null;
-//        emp = employeesRepo.findEmployee(empNo);
-//        if (emp != null) return Response.ok().entity(emp).build();
-//        else return Response.noContent().build();
-//    }
-
     // ! ENDPOINT 2
     @GET
     @Path("/searchEmployee")
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchEmployee(@QueryParam("empNo") int empNo) {
-        return Response.ok().entity(service.getEmployeeById(empNo)).build();
+        try {
+            return Response.ok().entity(service.getEmployeeById(empNo)).build();
+        } catch (IllegalArgumentException e) {
+            return Response.ok().entity("Invalid employee ID").build();
+        }
     }
-
-
-    //endpoint 3
-//    @GET
-//    @Path("/endPoint3PlaceHolderName")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
-//                                         @DefaultValue("1") @QueryParam("pgNo") int pgNo) {
-//        EmployeesRepoOld employeesRepoOld = new EmployeesRepoOld();
-//        List<EndPoint3DTO> results = employeesRepoOld.findEndPoint3Infos(deptNo, pgNo);
-//        if (results != null) return Response.ok().entity(results).build();
-//        else return Response.noContent().build();
-//    }
 
     @GET
     @Path("/endPoint3PlaceHolderName")
     @Produces(MediaType.APPLICATION_JSON)
     public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
                                          @DefaultValue("1") @QueryParam("pgNo") int pgNo) {
-        return Response.ok().entity(service.getEndPoint3Infos(deptNo, pgNo)).build();
+        try {
+            return Response.ok().entity(service.getEndPoint3Infos(deptNo, pgNo)).build();
+        } catch (IllegalArgumentException e) {
+            return Response.ok().entity("Invalid department Number").build();
+        }
     }
-
 
     //endpoint 4
     @POST
