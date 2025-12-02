@@ -1,20 +1,6 @@
 package driver;
 
-import entities.Departments;
-import entities.Salaries;
-import entities.Titles;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import entities.Employees;
 import repositories.DepartmentsRepo;
-import repositories.EmployeesRepo;
-import repositories.SalariesRepo;
-import repositories.TitlesRepo;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Main {
     static final String DBNAME = "employees";

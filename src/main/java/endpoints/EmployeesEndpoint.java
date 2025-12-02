@@ -2,6 +2,7 @@ package endpoints;
 
 import DTO.EndPoint3DTO;
 import DTO.Promotion;
+import Service.Service;
 import entities.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,6 +16,10 @@ import java.util.Objects;
 @Path("/employees")
 public class EmployeesEndpoint {
 
+    // ! ENDPOINT CALLS SERVICE, SERVICE CALLS REPO
+
+    Service service = new Service();
+
     //can remove later
     @GET
     @Path("/ping")
@@ -23,60 +28,65 @@ public class EmployeesEndpoint {
     }
 
     //endpoint 1
+//    @GET
+//    @Path("/getAllDepartments")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response searchAllDepartments() {
+//        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
+//        List<Departments> allDeps = departmentsRepo.findAllDepartments();
+//        if (allDeps != null) return Response.ok().entity(allDeps).build();
+//        else return Response.noContent().build();
+//    }
+
+    // ! ENDPOINT 1
     @GET
     @Path("/getAllDepartments")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchAllDepartments() {
-        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-        List<Departments> allDeps = null;
-        allDeps = departmentsRepo.findAllDepartments();
-        if (allDeps != null) return Response.ok().entity(allDeps).build();
-        else return Response.noContent().build();
+    public Response getAllDepartments() {
+        return Response.ok().entity(service.getAllDepartments()).build();
     }
 
     //endpoint 2
+//    @GET
+//    @Path("/searchEmployee")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response searchEmployee(@QueryParam("empNo") int empNo) {
+//        EmployeesRepoOld employeesRepo = new EmployeesRepoOld();
+//        Employees emp = null;
+//        emp = employeesRepo.findEmployee(empNo);
+//        if (emp != null) return Response.ok().entity(emp).build();
+//        else return Response.noContent().build();
+//    }
+
+    // ! ENDPOINT 2
     @GET
     @Path("/searchEmployee")
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchEmployee(@QueryParam("empNo") int empNo) {
-        EmployeesRepo employeesRepo = new EmployeesRepo();
-        Employees emp = null;
-        emp = employeesRepo.findEmployee(empNo);
-        if (emp != null) {
-            return Response.ok().entity(emp).build();
-        } else {
-            return Response.noContent().build();
-        }
+        return Response.ok().entity(service.getEmployeeById(empNo)).build();
     }
 
+
+    //endpoint 3
 //    @GET
 //    @Path("/endPoint3PlaceHolderName")
 //    @Produces(MediaType.APPLICATION_JSON)
-//    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo) {
-//        EmployeesRepo employeesRepo = new EmployeesRepo();
-//        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo);
-//        if (results != null) {
-//            return Response.ok().entity(results).build();
-//        } else {
-//            return Response.noContent().build();
-//        }
+//    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
+//                                         @DefaultValue("1") @QueryParam("pgNo") int pgNo) {
+//        EmployeesRepoOld employeesRepoOld = new EmployeesRepoOld();
+//        List<EndPoint3DTO> results = employeesRepoOld.findEndPoint3Infos(deptNo, pgNo);
+//        if (results != null) return Response.ok().entity(results).build();
+//        else return Response.noContent().build();
 //    }
 
     @GET
-    @Path("/endPoint3PlaceHolderName2")
+    @Path("/endPoint3PlaceHolderName")
     @Produces(MediaType.APPLICATION_JSON)
     public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
-                                         @DefaultValue("1")
-                                         @QueryParam("pgNo") int pgNo) {
-        EmployeesRepo employeesRepo = new EmployeesRepo();
-        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo
-                , pgNo);
-        if (results != null) {
-            return Response.ok().entity(results).build();
-        } else {
-            return Response.noContent().build();
-        }
+                                         @DefaultValue("1") @QueryParam("pgNo") int pgNo) {
+        return Response.ok().entity(service.getEndPoint3Infos(deptNo, pgNo)).build();
     }
+
 
     //endpoint 4
     @POST
@@ -87,9 +97,9 @@ public class EmployeesEndpoint {
         if (promotion != null) {
             if (promotion.getEmpNo() != 0) {
                 System.out.println("2");
-                EmployeesRepo employeesRepo = new EmployeesRepo();
+                EmployeesRepoOld employeesRepoOld = new EmployeesRepoOld();
                 Employees emp = null;
-                emp = employeesRepo.findEmployee(promotion.getEmpNo());
+                emp = employeesRepoOld.findEmployee(promotion.getEmpNo());
                 if (emp != null) {
                     System.out.println("3");
                     DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
