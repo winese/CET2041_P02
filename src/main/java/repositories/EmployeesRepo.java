@@ -28,9 +28,9 @@ public class EmployeesRepo {
 
     public List<EndPoint3DTO> findEndPoint3Infos(String deptNo, int pgNo) {
         return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
-                .setParameter(deptNo, deptNo)
-                .setMaxResults(20)
+                .setParameter("deptNo", deptNo)
                 .setFirstResult((pgNo - 1) * 20)
+                .setMaxResults(20)
                 .getResultList();
     }
 

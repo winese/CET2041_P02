@@ -41,7 +41,6 @@ public class Employees {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "hire_date")
     private LocalDate hireDate;
-
     @OneToMany(mappedBy = "employees")
     private List<Salaries> salaries;
     @OneToMany(mappedBy = "employees")

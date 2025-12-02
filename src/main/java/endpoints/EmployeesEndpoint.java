@@ -22,19 +22,6 @@ public class EmployeesEndpoint {
         return Response.ok().entity("Service online").build();
     }
 
-    //sample code
-    @GET
-    @Path("/getDepartment")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response searchDepartment() {
-        DepartmentsRepo departmentsRepo = new DepartmentsRepo();
-        Departments dep = null;
-        dep = departmentsRepo.findDepartment("d009");
-        return Response.ok()
-                .entity(dep)
-                .build();
-    }
-
     //endpoint 1
     @GET
     @Path("/getAllDepartments")
@@ -76,12 +63,13 @@ public class EmployeesEndpoint {
     }
 
     @GET
-    @Path("/endPoint3PlaceHolderName")
+    @Path("/endPoint3PlaceHolderName2")
     @Produces(MediaType.APPLICATION_JSON)
     public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
-                                         @QueryParam("pgNo")  int pgNo) {
+                                         @QueryParam("pgNo") int pgNo) {
         EmployeesRepo employeesRepo = new EmployeesRepo();
-        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo, pgNo);
+        List<EndPoint3DTO> results = employeesRepo.findEndPoint3Infos(deptNo
+                , pgNo);
         if (results != null) {
             return Response.ok().entity(results).build();
         } else {
@@ -102,22 +90,16 @@ public class EmployeesEndpoint {
                 emp = employeesRepo.findEmployee(promotion.getEmpNo());
                 if (emp != null) {
                     DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
-                    DeptEmployees currDeptEmployees = null;
-                    DeptEmployees newDeptEmployees = null;
-                    currDeptEmployees = deptEmployeesRepo.queryLatestDept(promotion.getEmpNo());
-                    String deptNo = currDeptEmployees.getDeptNo();
+                    DeptEmployees currDept = null;
+                    DeptEmployees newDept = null;
+                    currDept = deptEmployeesRepo.queryLatestDept(promotion.getEmpNo());
+                    String deptNo = currDept.getDeptNo();
 
-                    if (promotion.getDeptNo() != null) {
+                    if (promotion.getDeptNo() != null ) {
                         if (!Objects.equals(deptNo, promotion.getDeptNo())) {
                             deptNo = promotion.getDeptNo();
                         }
-                        newDeptEmployees = deptEmployeesRepo.insertNewDept(deptNo, promotion.getEmpNo());
-                    }
-
-                    if (promotion.getRaise() != 0) {
-                        SalariesRepo salariesRepo = new SalariesRepo();
-                        Salaries salary = null;
-                        salary = salariesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
+                        newDept = deptEmployeesRepo.insertNewDept(deptNo, promotion.getEmpNo());
                     }
 
                     if (!Objects.equals(promotion.getTitle(), "")) {
@@ -131,16 +113,74 @@ public class EmployeesEndpoint {
                             deptManager = deptManagerRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
                         }
                     }
+                    if (promotion.getRaise() != 0) {
+                        SalariesRepo salariesRepo = new SalariesRepo();
+                        Salaries salary = null;
+                        salary = salariesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
+                    }
                     return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
                 }
-            } else {
                 return Response.noContent().build();
             }
-        } else {
             return Response.noContent().build();
         }
-        return  Response.ok().build();
+        return Response.noContent().build();
     }
+
+
+
+//    //endpoint 4
+//    @POST
+//    @Path("/promoteEmployee")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response promoteEmployee(Promotion promotion) {
+//        if (promotion != null) {
+//            if (promotion.getEmpNo() != 0) {
+//                EmployeesRepo employeesRepo = new EmployeesRepo();
+//                Employees emp = null;
+//                emp = employeesRepo.findEmployee(promotion.getEmpNo());
+//                if (emp != null) {
+//                    DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
+//                    DeptEmployees currDeptEmployees = null;
+//                    DeptEmployees newDeptEmployees = null;
+//                    currDeptEmployees = deptEmployeesRepo.queryLatestDept(promotion.getEmpNo());
+//                    String deptNo = currDeptEmployees.getDeptNo();
+//
+//                    if (promotion.getDeptNo() != null) {
+//                        if (!Objects.equals(deptNo, promotion.getDeptNo())) {
+//                            deptNo = promotion.getDeptNo();
+//                        }
+//                        newDeptEmployees = deptEmployeesRepo.insertNewDept(deptNo, promotion.getEmpNo());
+//                    }
+//
+//                    if (promotion.getRaise() != 0) {
+//                        SalariesRepo salariesRepo = new SalariesRepo();
+//                        Salaries salary = null;
+//                        salary = salariesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
+//                    }
+//
+//                    if (!Objects.equals(promotion.getTitle(), "")) {
+//                        TitlesRepo titlesRepo = new TitlesRepo();
+//                        Titles title = null;
+//                        title = titlesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
+//
+//                        if (promotion.getTitle().toLowerCase().contains("manager")) {
+//                            DeptManagerRepo deptManagerRepo = new DeptManagerRepo();
+//                            DeptManager deptManager = null;
+//                            deptManager = deptManagerRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
+//                        }
+//                    }
+//                    return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
+//                }
+//            } else {
+//                return Response.noContent().build();
+//            }
+//        } else {
+//            return Response.noContent().build();
+//        }
+//        return  Response.ok().build();
+//    }
 
 
 //    @POST
