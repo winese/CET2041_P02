@@ -65,62 +65,77 @@ public class EmployeesEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response promoteEmployee(Promotion promotion) {
-        if (promotion != null) {
-            if (promotion.getEmpNo() != 0) {
-                System.out.println("2");
-                EmployeesRepoOld employeesRepoOld = new EmployeesRepoOld();
-                Employees emp = null;
-                emp = employeesRepoOld.findEmployee(promotion.getEmpNo());
-                if (emp != null) {
-                    System.out.println("3");
-                    DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
-                    DeptEmployees currDept = null;
-                    DeptEmployees newDept = null;
-                    currDept = deptEmployeesRepo.queryLatestDept(promotion.getEmpNo());
-                    String deptNo = currDept.getDeptNo();
-
-                    if (promotion.getDeptNo() != null ) {
-                        System.out.println("3-1");
-                        if (!Objects.equals(deptNo, promotion.getDeptNo())) {
-                            deptNo = promotion.getDeptNo();
-                        }
-                        newDept = deptEmployeesRepo.insertNewDept(deptNo, promotion.getEmpNo());
-                    }
-                    System.out.println("4");
-                    if (!Objects.equals(promotion.getTitle(), "")) {
-                        System.out.println("4-1");
-                        TitlesRepo titlesRepo = new TitlesRepo();
-                        Titles title = null;
-                        title = titlesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
-                    }
-                    System.out.println("5");
-                    if (promotion.isManager()) {
-                        System.out.println("5-1");
-                        DeptManagerRepo deptManagerRepo = new DeptManagerRepo();
-                        DeptManager deptManager = null;
-                        deptManager = deptManagerRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
-                    }
-                    System.out.println("6");
-                    if (promotion.getRaise() != 0) {
-                        System.out.println("6-1");
-                        SalariesRepo salariesRepo = new SalariesRepo();
-                        Salaries salary = null;
-                        salary = salariesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
-                    }
-                    System.out.println("7");
-                    return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
-                }
-                System.out.println("8");
-                return Response.noContent().build();
-            }
-            System.out.println("9");
-            return Response.noContent().build();
+        String result = service.promoteEmployee(promotion);
+        if (result != null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(result)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        } else {
+            return Response.status(201).entity("Promotion Successful").build();
         }
-        System.out.println("10");
-        return Response.noContent().build();
     }
 
-
+    //endpoint 4
+//    @POST
+//    @Path("/promoteEmployee")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response promoteEmployee(Promotion promotion) {
+//        if (promotion != null) {
+//            if (promotion.getEmpNo() != 0) {
+//                System.out.println("2");
+//                EmployeesRepoOld employeesRepoOld = new EmployeesRepoOld();
+//                Employees emp = null;
+//                emp = employeesRepoOld.findEmployee(promotion.getEmpNo());
+//                if (emp != null) {
+//                    System.out.println("3");
+//                    DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
+//                    DeptEmployees currDept = null;
+//                    DeptEmployees newDept = null;
+//                    currDept = deptEmployeesRepo.queryLatestDept(promotion.getEmpNo());
+//                    String deptNo = currDept.getDeptNo();
+//
+//                    if (promotion.getDeptNo() != null ) {
+//                        System.out.println("3-1");
+//                        if (!Objects.equals(deptNo, promotion.getDeptNo())) {
+//                            deptNo = promotion.getDeptNo();
+//                        }
+//                        newDept = deptEmployeesRepo.insertNewDept(deptNo, promotion.getEmpNo());
+//                    }
+//                    System.out.println("4");
+//                    if (!Objects.equals(promotion.getTitle(), "")) {
+//                        System.out.println("4-1");
+//                        TitlesRepo titlesRepo = new TitlesRepo();
+//                        Titles title = null;
+//                        title = titlesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
+//                    }
+//                    System.out.println("5");
+//                    if (promotion.isManager()) {
+//                        System.out.println("5-1");
+//                        DeptManagerRepo deptManagerRepo = new DeptManagerRepo();
+//                        DeptManager deptManager = null;
+//                        deptManager = deptManagerRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
+//                    }
+//                    System.out.println("6");
+//                    if (promotion.getRaise() != 0) {
+//                        System.out.println("6-1");
+//                        SalariesRepo salariesRepo = new SalariesRepo();
+//                        Salaries salary = null;
+//                        salary = salariesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
+//                    }
+//                    System.out.println("7");
+//                    return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
+//                }
+//                System.out.println("8");
+//                return Response.noContent().build();
+//            }
+//            System.out.println("9");
+//            return Response.noContent().build();
+//        }
+//        System.out.println("10");
+//        return Response.noContent().build();
+//    }
 
 //    //endpoint 4
 //    @POST
