@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class EmployeesRepo {
 
@@ -38,98 +39,150 @@ public class EmployeesRepo {
     }
 
     // ! ENDPOINT 4
-
-    public DeptEmployees queryLatestDept(int empNo) {
-        return em.createNamedQuery("DeptEmployees.searchLatestDeptByEmpNo", DeptEmployees.class)
+    public DeptEmployees findCurrDept(int empNo) {
+        return em.createNamedQuery("DeptEmployees.findLatestDeptByEmpNo", DeptEmployees.class)
                 .setParameter("empNo", empNo)
                 .getSingleResult();
     }
 
-    public void insertNewDept(String deptNo, int empNo) {
-        LocalDate newToDate = LocalDate.of(9999,12,31);
-        DeptEmployees oldDept = queryLatestDept(empNo);
-        DeptEmployees newDept = new DeptEmployees();
-
-        //Update existing department toDate if exist
-        if (oldDept != null) {
-            oldDept.setToDate(LocalDate.now());
-            em.persist(oldDept);
-        }
-        //Insert new department
-        newDept.setDeptNo(deptNo);
-        newDept.setEmpNo(empNo);
-        newDept.setFromDate(LocalDate.now());
-        newDept.setToDate(newToDate);
-        em.persist(newDept);
-    }
-
-    public Titles queryLatestEmpTitle(int empNo) {
-        return em.createNamedQuery("Titles.searchLatestTitleByEmpNo", Titles.class)
+    public Titles findCurrTitle(int empNo) {
+        return em.createNamedQuery("Titles.findLatestTitleByEmpNo", Titles.class)
                 .setParameter("empNo", empNo)
                 .getSingleResult();
     }
 
-    public void insertNewEmployeeTitle(int empNo, String title) {
-        LocalDate toDate = LocalDate.of(9999,12,31);
-        Titles oldTitle = queryLatestEmpTitle(empNo);
-        Titles newTitle = new Titles();
+    public Salaries findCurrSalary(int empNo) {
+        return em.createNamedQuery("Salaries.findLatestSalaryByEmpNo", Salaries.class)
+                .setParameter("empNo", empNo)
+                .getSingleResult();
+    }
 
-        //Update existing salary toDate if exist
-        if (oldTitle != null) {
-            oldTitle.setToDate(toDate);
-            em.persist(oldTitle);
+    public DeptManager findManager(int empNo, String deptNo) {
+        return em.createNamedQuery("DeptManager.findDeptManagerByEmpNo", DeptManager.class)
+                .setParameter("empNo", empNo)
+                .setParameter("deptNo", deptNo)
+                .getSingleResult();
+    }
+
+    public String insertNewDept(Employees employee, Departments dept, DeptEmployees currDept, String newDeptNo) {
+        try {
+            DeptEmployees newDept = new DeptEmployees();
+            LocalDate newToDate = LocalDate.of(9999,12,31);
+
+            //Update existing department toDate if exist
+            if (currDept != null) {
+                currDept.setToDate(LocalDate.now());
+                em.persist(currDept);
+                em.flush();
+            }
+            else{
+                return "Existing department not found";
+            }
+
+            //Insert new department
+            newDept.setDeptNo(newDeptNo);
+            newDept.setEmpNo(employee.getEmpNo());
+            newDept.setFromDate(LocalDate.now());
+            newDept.setToDate(newToDate);
+            newDept.setDepartment(dept);
+            em.persist(newDept);
+            em.flush();
+            return null;
         }
-
-        //Insert new title
-        newTitle.setEmpNo(empNo);
-        newTitle.setTitle(title);
-        newTitle.setFromDate(LocalDate.now());
-        newTitle.setToDate(toDate);
-        em.persist(newTitle);
-    }
-
-    public void insertNewDeptManager(String deptNo, int empNo) {
-        LocalDate toDate = LocalDate.of(9999,12,31);
-        DeptManager newDeptManager = new DeptManager();
-
-        em.getTransaction().begin();
-        //Insert new department manager
-        newDeptManager.setDeptNo(deptNo);
-        newDeptManager.setEmpNo(empNo);
-        newDeptManager.setFromDate(LocalDate.now());
-        newDeptManager.setToDate(toDate);
-        em.persist(newDeptManager);
-        em.getTransaction().commit();
-    }
-
-    public Salaries queryLatestEmpSalary(int empNo) {
-        String query = "SELECT s " +
-                "FROM Salaries s " +
-                "WHERE s.empNo = '" + empNo +
-                "' AND " +
-                "s.toDate > CURRENT_DATE";
-        return em.createQuery(query, Salaries.class).getSingleResult();
-    }
-
-    public void insertNewEmployeeSalary(int empNo, int raise) {
-        LocalDate to = LocalDate.parse("31-12-9999");
-        Salaries oldSalary = queryLatestEmpSalary(empNo);
-        Salaries newSalary = new Salaries();
-
-        //Update existing salary toDate if exist
-        if (oldSalary != null) {
-            oldSalary.setToDate(LocalDate.parse(to.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
-            em.persist(oldSalary);
+        catch (Exception e) {
+            return e.getMessage();
         }
-
-        //Insert new salary
-        newSalary.setEmpNo(empNo);
-        newSalary.setSalary(raise);
-        newSalary.setFromDate(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
-        newSalary.setToDate(LocalDate.parse(to.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
-        em.persist(newSalary);
     }
 
+    public String insertNewTitle(Employees employee, Titles currTitle, String newTitle) {
+        try {
+            Titles title = new Titles();
+            LocalDate newToDate = LocalDate.of(9999,12,31);
 
+            //Update existing title toDate if exist
+            if (currTitle != null) {
+                currTitle.setToDate(LocalDate.now());
+                em.persist(currTitle);
+                em.flush();
+            }
+            else{
+                return "Existing title not found";
+            }
 
+            //Insert new department
+            title.setEmpNo(employee.getEmpNo());
+            title.setTitle(newTitle);
+            title.setFromDate(LocalDate.now());
+            title.setToDate(newToDate);
+            title.setEmployees(employee);
+            em.persist(title);
+            em.flush();
+            return null;
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String insertNewManager(Employees employee, DeptEmployees currDept, String deptNo) {
+        try {
+            DeptManager newManager = new DeptManager();
+            LocalDate newToDate = LocalDate.of(9999,12,31);
+
+            //Get current department number if there is no new department number input
+            if (Objects.equals(deptNo, "")) {
+                deptNo = currDept.getDeptNo();
+            }
+
+            //Check if exist
+            DeptManager curr = findManager(employee.getEmpNo(), deptNo);
+            if (curr != null) {
+                return "Manager already exists";
+            }
+            else{
+                //Insert new manager
+                newManager.setDeptNo(deptNo);
+                newManager.setEmpNo(employee.getEmpNo());
+                newManager.setFromDate(LocalDate.now());
+                newManager.setToDate(newToDate);
+                newManager.setEmployees(employee);
+                em.persist(newManager);
+                em.flush();
+                return null;
+            }
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String insertNewSalary(Employees employee, Salaries currSalary, int newSalary) {
+        try {
+            Salaries salary = new Salaries();
+            LocalDate newToDate = LocalDate.of(9999,12,31);
+
+            //Update existing salary toDate if exist
+            if (currSalary != null) {
+                currSalary.setToDate(LocalDate.now());
+                em.persist(currSalary);
+                em.flush();
+            }
+            else{
+                return "Existing salary not found";
+            }
+
+            //Insert new salary
+            salary.setEmpNo(employee.getEmpNo());
+            salary.setSalary(newSalary);
+            salary.setFromDate(LocalDate.now());
+            salary.setToDate(newToDate);
+            salary.setEmployees(employee);
+            em.persist(salary);
+            em.flush();
+            return null;
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

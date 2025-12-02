@@ -17,15 +17,8 @@ public class Service {
 
     private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
     EntityManager em = emf.createEntityManager();
-
     EmployeesRepo employeesRepo = new EmployeesRepo(em);
-
     EntityTransaction transaction = em.getTransaction();
-
-    DeptEmployeesRepo deptEmployeesRepo = new DeptEmployeesRepo();
-    TitlesRepo titlesRepo = new TitlesRepo();
-    DeptManagerRepo deptManagerRepo = new DeptManagerRepo();
-    SalariesRepo salariesRepo = new SalariesRepo();
 
     // ! ENDPOINT !
     public List<Departments> getAllDepartments() {
@@ -52,44 +45,62 @@ public class Service {
         // ! ADD MORE TEST CASES
     }
 
+    // ! ENDPOINT 4
     public String promoteEmployee(Promotion promotion) {
+
+        //Checking
         if (promotion == null) {
-            return "EMPTY JSON";
+            return "Invalid parameters";
         }
-        int empNo = promotion.getEmpNo();
-        int raise  = promotion.getRaise();
-        Employees employee = employeesRepo.findEmployee(empNo);
-        DeptEmployees currDept = employeesRepo.queryLatestDept(empNo);
-        String newTitle = promotion.getTitle();
-        if (employee == null
-                || currDept == null
-                || raise == 0
-                || newTitle == null
-                || newTitle.isEmpty()) {
-            return "Invalid Parameters";
+        if (promotion.getEmpNo() <= 0) {
+            return "No Employee Number found";
         }
+        if (promotion.getNewSalary() <= 0 && !promotion.isManager()
+                && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
+                && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())) {
+            return "No promotion parameters found";
+        }
+
         try {
+            String result = "";
+            int empNo = promotion.getEmpNo();
+            int newSalary  = promotion.getNewSalary();
+            String newTitle = promotion.getNewTitle();
+            String newDeptNo = promotion.getNewDeptNo();
+            boolean isManager = promotion.isManager();
+
+            Employees employee = employeesRepo.findEmployee(empNo);
+            DeptEmployees currDept = employeesRepo.findCurrDept(empNo);
+            Titles currTitle = employeesRepo.findCurrTitle(empNo);
+            Salaries currSalary = employeesRepo.findCurrSalary(empNo);
+
             System.out.println("Beginning transaction");
-            em.getTransaction().begin();
-            String deptNo = currDept.getDeptNo();
+            transaction.begin();
+
             // Changing Departments
-            if (!Objects.equals(deptNo, promotion.getDeptNo())) {
-                deptNo = promotion.getDeptNo();
-                employeesRepo.insertNewDept(deptNo, empNo);
+            if (!Objects.equals(newDeptNo, "") && !Objects.equals(currDept.getDeptNo(), newDeptNo)) {
+                result = employeesRepo.insertNewDept(employee, currDept.getDepartment(), currDept, newDeptNo);
                 System.out.println("Changed departments");
             }
+
             // Changing Titles
-            employeesRepo.insertNewEmployeeTitle(empNo, newTitle);
-            System.out.println("Changed titles");
-            // Changing Titles - Manager
-            if (promotion.isManager()) {
-                employeesRepo.insertNewDeptManager(deptNo, empNo);
-                System.out.println("Changed deptManager");
+            if (!Objects.equals(newTitle, "") && !Objects.equals(currTitle.getTitle(), newTitle)) {
+                result = employeesRepo.insertNewTitle(employee, currTitle, newDeptNo);
+                System.out.println("Changed title");
             }
+
+            // Promote to Manager
+            if (isManager) {
+                result = employeesRepo.insertNewManager(employee, currDept, newDeptNo);
+                System.out.println("Promote to Manager");
+            }
+
             // Changing Salary
-            employeesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), raise);
-            System.out.println("Changed Salaries");
-            em.getTransaction().commit();
+            if (newSalary > 0 && newSalary > currSalary.getSalary()) {
+                result = employeesRepo.insertNewSalary(employee, currSalary, newSalary);
+                System.out.println("Changed Salary");
+            }
+            transaction.commit();
             System.out.println("Transaction committed");
             return null;
         } catch (Exception e) {
@@ -98,7 +109,7 @@ public class Service {
         }
         finally {
             em.close();
-            emf.close();
+            //emf.close();
         }
     }
 

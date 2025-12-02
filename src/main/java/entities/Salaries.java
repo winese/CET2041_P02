@@ -11,6 +11,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @IdClass(SalaryId.class)
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "Salaries.findLatestSalaryByEmpNo",
+                query = "SELECT s FROM Salaries s WHERE s.empNo = :empNo AND s.toDate > CURRENT_DATE")
+})
 @Getter
 @Setter
 @ToString

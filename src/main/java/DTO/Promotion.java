@@ -1,5 +1,6 @@
 package DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -9,9 +10,11 @@ import lombok.*;
 @Setter
 @ToString
 public class Promotion {
+    @JsonProperty(required = true)
     private int empNo;
-    private int raise;
-    private String title;
-    private String deptNo;
+    private int newSalary;
+    private String newTitle;
+    private String newDeptNo;
+    @JsonProperty("isManager")
     private boolean isManager = false;
 }

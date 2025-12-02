@@ -21,7 +21,7 @@ import java.time.LocalDate;
 //                "WHERE de.deptNo = :deptNo"
 //)
 @NamedQueries({
-    @NamedQuery(name = "DeptEmployees.searchLatestDeptByEmpNo",
+    @NamedQuery(name = "DeptEmployees.findLatestDeptByEmpNo",
             query = "SELECT d FROM DeptEmployees d WHERE d.empNo = :empNo AND d.toDate > CURRENT_DATE")
 })
 @Getter
@@ -34,7 +34,6 @@ public class DeptEmployees {
     private int empNo;
     @Id
     @Column(name="dept_no")
-    @JsonIgnore
     private String deptNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name="from_date")
@@ -50,5 +49,6 @@ public class DeptEmployees {
     @ManyToOne
     @MapsId ("deptNo")
     @JoinColumn(name="dept_no")
+    @JsonIgnore
     private Departments department;
 }

@@ -12,6 +12,10 @@ import java.time.LocalDate;
 @IdClass(DeptManagerId.class)
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "DeptManager.findDeptManagerByEmpNo",
+                query = "SELECT m FROM DeptManager m WHERE m.empNo = :empNo AND m.deptNo = :deptNo")
+})
 @Getter
 @Setter
 @ToString
@@ -22,7 +26,6 @@ public class DeptManager {
     private int empNo;
     @Id
     @Column(name="dept_no")
-    @JsonIgnore
     private String deptNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name="from_date")
@@ -38,6 +41,6 @@ public class DeptManager {
     @ManyToOne
     @MapsId ("deptNo")
     @JoinColumn(name="dept_no")
+    @JsonIgnore
     private Departments dept;
-
 }

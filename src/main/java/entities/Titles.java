@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @AllArgsConstructor
 @NoArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "Titles.searchLatestTitleByEmpNo",
+        @NamedQuery(name = "Titles.findLatestTitleByEmpNo",
                 query = "SELECT t FROM Titles t WHERE t.empNo = :empNo AND t.toDate > CURRENT_DATE")
 })
 @Getter

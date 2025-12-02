@@ -1,24 +1,15 @@
 package endpoints;
 
-import DTO.EndPoint3DTO;
 import DTO.Promotion;
 import Service.Service;
-import entities.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import repositories.*;
-
-import java.util.List;
-import java.util.Objects;
 
 @Path("/employees")
 public class EmployeesEndpoint {
 
     // ! ENDPOINT CALLS SERVICE, SERVICE CALLS REPO
-
-    Service service = new Service();
 
     //can remove later
     @GET
@@ -32,6 +23,7 @@ public class EmployeesEndpoint {
     @Path("/getAllDepartments")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllDepartments() {
+        Service service = new Service();
         return Response.ok().entity(service.getAllDepartments()).build();
     }
 
@@ -41,6 +33,7 @@ public class EmployeesEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchEmployee(@QueryParam("empNo") int empNo) {
         try {
+            Service service = new Service();
             return Response.ok().entity(service.getEmployeeById(empNo)).build();
         } catch (IllegalArgumentException e) {
             return Response.ok().entity("Invalid employee ID").build();
@@ -53,6 +46,7 @@ public class EmployeesEndpoint {
     public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
                                          @DefaultValue("1") @QueryParam("pgNo") int pgNo) {
         try {
+            Service service = new Service();
             return Response.ok().entity(service.getEndPoint3Infos(deptNo, pgNo)).build();
         } catch (IllegalArgumentException e) {
             return Response.ok().entity("Invalid department Number").build();
@@ -65,14 +59,14 @@ public class EmployeesEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response promoteEmployee(Promotion promotion) {
+        Service service = new Service();
         String result = service.promoteEmployee(promotion);
         if (result != null) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(result)
-                    .type(MediaType.TEXT_PLAIN)
                     .build();
         } else {
-            return Response.status(201).entity("Promotion Successful").build();
+            return Response.status(201).entity("Promoted: " + promotion.getEmpNo()).build();
         }
     }
 
