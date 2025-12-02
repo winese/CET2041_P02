@@ -45,7 +45,7 @@ public class EmployeesRepo {
                 .getSingleResult();
     }
 
-    public DeptEmployees insertNewDept(String deptNo, int empNo) {
+    public void insertNewDept(String deptNo, int empNo) {
         LocalDate newToDate = LocalDate.of(9999,12,31);
         DeptEmployees oldDept = queryLatestDept(empNo);
         DeptEmployees newDept = new DeptEmployees();
@@ -61,8 +61,6 @@ public class EmployeesRepo {
         newDept.setFromDate(LocalDate.now());
         newDept.setToDate(newToDate);
         em.persist(newDept);
-
-        return newDept;
     }
 
     public Titles queryLatestEmpTitle(int empNo) {
@@ -71,7 +69,7 @@ public class EmployeesRepo {
                 .getSingleResult();
     }
 
-    public Titles insertNewEmployeeTitle(int empNo, String title) {
+    public void insertNewEmployeeTitle(int empNo, String title) {
         LocalDate toDate = LocalDate.of(9999,12,31);
         Titles oldTitle = queryLatestEmpTitle(empNo);
         Titles newTitle = new Titles();
@@ -88,10 +86,9 @@ public class EmployeesRepo {
         newTitle.setFromDate(LocalDate.now());
         newTitle.setToDate(toDate);
         em.persist(newTitle);
-        return newTitle;
     }
 
-    public DeptManager insertNewDeptManager(String deptNo, int empNo) {
+    public void insertNewDeptManager(String deptNo, int empNo) {
         LocalDate toDate = LocalDate.of(9999,12,31);
         DeptManager newDeptManager = new DeptManager();
 
@@ -103,7 +100,6 @@ public class EmployeesRepo {
         newDeptManager.setToDate(toDate);
         em.persist(newDeptManager);
         em.getTransaction().commit();
-        return newDeptManager;
     }
 
     public Salaries queryLatestEmpSalary(int empNo) {
@@ -115,7 +111,7 @@ public class EmployeesRepo {
         return em.createQuery(query, Salaries.class).getSingleResult();
     }
 
-    public Salaries insertNewEmployeeSalary(int empNo, int raise) {
+    public void insertNewEmployeeSalary(int empNo, int raise) {
         LocalDate to = LocalDate.parse("31-12-9999");
         Salaries oldSalary = queryLatestEmpSalary(empNo);
         Salaries newSalary = new Salaries();
@@ -132,7 +128,6 @@ public class EmployeesRepo {
         newSalary.setFromDate(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
         newSalary.setToDate(LocalDate.parse(to.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
         em.persist(newSalary);
-        return newSalary;
     }
 
 

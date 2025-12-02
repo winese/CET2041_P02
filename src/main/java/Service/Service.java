@@ -52,67 +52,118 @@ public class Service {
         // ! ADD MORE TEST CASES
     }
 
-    // ! ENDPOINT 4
     public String promoteEmployee(Promotion promotion) {
-        System.out.println("1");
-        try {
-            if (promotion != null) {
-                if (promotion.getEmpNo() != 0) {
-                    System.out.println("2");
-                    Employees employee = employeesRepo.findEmployee(promotion.getEmpNo());
-                    if (employee != null) {
-                        System.out.println("3");
-
-                        DeptEmployees newDept = null;
-                        DeptEmployees currDept = employeesRepo.queryLatestDept(promotion.getEmpNo());
-                        String deptNo = currDept.getDeptNo();
-
-                        em.getTransaction().begin();
-                        if (promotion.getDeptNo() != null) {
-                            System.out.println("3-1");
-                            if (!Objects.equals(deptNo, promotion.getDeptNo())) {
-                                deptNo = promotion.getDeptNo();
-                            }
-                            newDept = employeesRepo.insertNewDept(deptNo,
-                                    promotion.getEmpNo());
-                        }
-                        System.out.println("4");
-                        if (!Objects.equals(promotion.getTitle(), "")) {
-                            System.out.println("4-1");
-                            Titles title = employeesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
-                        }
-                        System.out.println("5");
-                        if (promotion.isManager()) {
-                            System.out.println("5-1");
-                            DeptManager deptManager = employeesRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
-                        }
-                        System.out.println("6");
-                        if (promotion.getRaise() != 0) {
-                            System.out.println("6-1");
-                            Salaries salary = employeesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
-                        }
-                        System.out.println("7");
-                        em.getTransaction().commit();
-                        System.out.println("8");
-                        return null;
-                        //return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
-                    } else {
-                        return "Employee not found.";
-                    }
-                } else {
-                    return "No employee number found.";
-                }
-            } else {
-                return "EMPTY JSON";
-            }
+        if (promotion == null) {
+            return "EMPTY JSON";
         }
-        catch (Exception ex) {
+        int empNo = promotion.getEmpNo();
+        int raise  = promotion.getRaise();
+        Employees employee = employeesRepo.findEmployee(empNo);
+        DeptEmployees currDept = employeesRepo.queryLatestDept(empNo);
+        String newTitle = promotion.getTitle();
+        if (employee == null
+                || currDept == null
+                || raise == 0
+                || newTitle == null
+                || newTitle.isEmpty()) {
+            return "Invalid Parameters";
+        }
+        try {
+            System.out.println("Beginning transaction");
+            em.getTransaction().begin();
+            String deptNo = currDept.getDeptNo();
+            // Changing Departments
+            if (!Objects.equals(deptNo, promotion.getDeptNo())) {
+                deptNo = promotion.getDeptNo();
+                employeesRepo.insertNewDept(deptNo, empNo);
+                System.out.println("Changed departments");
+            }
+            // Changing Titles
+            employeesRepo.insertNewEmployeeTitle(empNo, newTitle);
+            System.out.println("Changed titles");
+            // Changing Titles - Manager
+            if (promotion.isManager()) {
+                employeesRepo.insertNewDeptManager(deptNo, empNo);
+                System.out.println("Changed deptManager");
+            }
+            // Changing Salary
+            employeesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), raise);
+            System.out.println("Changed Salaries");
+            em.getTransaction().commit();
+            System.out.println("Transaction committed");
+            return null;
+        } catch (Exception e) {
             transaction.rollback();
-            return ex.getMessage();
+            return e.getMessage();
         }
         finally {
             em.close();
             emf.close();
         }
     }
+
+//    // ! ENDPOINT 4
+//    public String promoteEmployee(Promotion promotion) {
+//        System.out.println("1");
+//        try {
+//            if (promotion != null) {
+//                if (promotion.getEmpNo() != 0) {
+//                    System.out.println("2");
+//                    Employees employee = employeesRepo.findEmployee(promotion.getEmpNo());
+//                    if (employee != null) {
+//                        System.out.println("3");
+//
+//                        DeptEmployees newDept = null;
+//                        DeptEmployees currDept = employeesRepo.queryLatestDept(promotion.getEmpNo());
+//                        String deptNo = currDept.getDeptNo();
+//
+//                        em.getTransaction().begin();
+//                        if (promotion.getDeptNo() != null) {
+//                            System.out.println("3-1");
+//                            if (!Objects.equals(deptNo, promotion.getDeptNo())) {
+//                                deptNo = promotion.getDeptNo();
+//                            }
+//                            newDept = employeesRepo.insertNewDept(deptNo,
+//                                    promotion.getEmpNo());
+//                        }
+//                        System.out.println("4");
+//                        if (!Objects.equals(promotion.getTitle(), "")) {
+//                            System.out.println("4-1");
+//                            Titles title = employeesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
+//                        }
+//                        System.out.println("5");
+//                        if (promotion.isManager()) {
+//                            System.out.println("5-1");
+//                            DeptManager deptManager = employeesRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
+//                        }
+//                        System.out.println("6");
+//                        if (promotion.getRaise() != 0) {
+//                            System.out.println("6-1");
+//                            Salaries salary = employeesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
+//                        }
+//                        System.out.println("7");
+//                        em.getTransaction().commit();
+//                        System.out.println("8");
+//                        return null;
+//                        //return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
+//                    } else {
+//                        return "Employee not found.";
+//                    }
+//                } else {
+//                    return "No employee number found.";
+//                }
+//            } else {
+//                return "EMPTY JSON";
+//            }
+//        }
+//        catch (Exception ex) {
+//            transaction.rollback();
+//            return ex.getMessage();
+//        }
+//        finally {
+//            em.close();
+//            emf.close();
+//        }
+//    }
+
 }
