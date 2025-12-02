@@ -77,6 +77,7 @@
 
 package repositories;
 
+import entities.DeptEmployees;
 import entities.Titles;
 import jakarta.persistence.EntityManager;
 import entities.Employees;
@@ -107,31 +108,37 @@ public class TitlesRepo {
 //        }
 //    }
 //
+//    public Titles queryLatestEmpTitle(int empNo) {
+//        String query = "SELECT t " +
+//                "FROM Titles t " +
+//                "WHERE t.empNo = '" + empNo +
+//                "' AND " +
+//                "t.toDate > CURRENT_DATE";
+//        return em.createQuery(query, Titles.class).getSingleResult();
+//    }
+
     public Titles queryLatestEmpTitle(int empNo) {
-        String query = "SELECT t " +
-                "FROM Titles t " +
-                "WHERE t.empNo = '" + empNo +
-                "' AND " +
-                "t.toDate > CURRENT_DATE";
-        return em.createQuery(query, Titles.class).getSingleResult();
+        return em.createNamedQuery("Titles.searchLatestTitleByEmpNo", Titles.class)
+                .setParameter("empNo", empNo)
+                .getSingleResult();
     }
 
     public Titles insertNewEmployeeTitle(int empNo, String title) {
-        LocalDate to = LocalDate.parse("31-12-9999");
-        Titles oldtitle = queryLatestEmpTitle(empNo);
+        LocalDate toDate = LocalDate.of(9999,12,31);
+        Titles oldTitle = queryLatestEmpTitle(empNo);
         Titles newTitle = new Titles();
 
         //Update existing salary toDate if exist
-        if (oldtitle != null) {
-            oldtitle.setToDate(LocalDate.parse(to.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
-            em.persist(oldtitle);
+        if (oldTitle != null) {
+            oldTitle.setToDate(toDate);
+            em.persist(oldTitle);
         }
 
-        //Insert new salary
+        //Insert new title
         newTitle.setEmpNo(empNo);
         newTitle.setTitle(title);
-        newTitle.setFromDate(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
-        newTitle.setToDate(LocalDate.parse(to.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
+        newTitle.setFromDate(LocalDate.now());
+        newTitle.setToDate(toDate);
         em.persist(newTitle);
         return newTitle;
     }
