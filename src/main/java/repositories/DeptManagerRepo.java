@@ -13,15 +13,15 @@ public class DeptManagerRepo {
     EntityManager em = emf.createEntityManager();
 
     public DeptManager insertNewDeptManager(String deptNo, int empNo) {
-        LocalDate to = LocalDate.parse("31-12-9999");
+        LocalDate toDate = LocalDate.of(9999,12,31);
         DeptManager newDeptManager = new DeptManager();
 
         em.getTransaction().begin();
         //Insert new department manager
         newDeptManager.setDeptNo(deptNo);
         newDeptManager.setEmpNo(empNo);
-        newDeptManager.setFromDate(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
-        newDeptManager.setToDate(LocalDate.parse(to.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
+        newDeptManager.setFromDate(LocalDate.now());
+        newDeptManager.setToDate(toDate);
         em.persist(newDeptManager);
         em.getTransaction().commit();
         return newDeptManager;

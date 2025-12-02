@@ -20,6 +20,10 @@ import java.time.LocalDate;
 //                "JOIN de.employees e " +
 //                "WHERE de.deptNo = :deptNo"
 //)
+@NamedQueries({
+    @NamedQuery(name = "DeptEmployees.searchLatestDeptByEmpNo",
+            query = "SELECT d FROM DeptEmployees d WHERE d.empNo = :empNo AND d.toDate > CURRENT_DATE")
+})
 @Getter
 @Setter
 @ToString

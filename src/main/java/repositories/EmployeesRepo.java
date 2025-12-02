@@ -18,13 +18,13 @@ public class EmployeesRepo {
         return em.find(Employees.class, empNo);
     }
 
-    public List<EndPoint3DTO> findEndPoint3Infos(String deptNo) {
-        return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
-                .setParameter("deptNo", deptNo)
-                .setFirstResult(0)
-                .setMaxResults(20)
-                .getResultList();
-    }
+//    public List<EndPoint3DTO> findEndPoint3Infos(String deptNo) {
+//        return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
+//                .setParameter("deptNo", deptNo)
+//                .setFirstResult(0)
+//                .setMaxResults(20)
+//                .getResultList();
+//    }
 
     public List<EndPoint3DTO> findEndPoint3Infos(String deptNo, int pgNo) {
         return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
