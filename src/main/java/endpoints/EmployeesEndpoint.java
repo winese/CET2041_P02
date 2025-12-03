@@ -40,7 +40,9 @@ public class EmployeesEndpoint {
             }
         }
         catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("There is issue during query")
+                    .build();
         }
     }
 
@@ -76,7 +78,9 @@ public class EmployeesEndpoint {
             }
         }
         catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("There is issue during query")
+                    .build();
         }
     }
 
@@ -115,7 +119,9 @@ public class EmployeesEndpoint {
             }
         }
         catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("There is issue during query")
+                    .build();
         }
     }
 
@@ -166,7 +172,9 @@ public class EmployeesEndpoint {
             }
         }
         catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("There is issue during promotion")
+                    .build();
         }
     }
 }
