@@ -95,7 +95,9 @@ public class Service {
 
             // Changing Departments
             if (!Objects.equals(newDeptNo, "") && !Objects.equals(currDept.getDeptNo(), newDeptNo)) {
-                result = employeesRepo.insertNewDept(employee, currDept.getDepartment(), currDept, newDeptNo);
+                Departments newDept = em.find(Departments.class, newDeptNo);
+                result = employeesRepo.insertNewDept(employee,
+                        newDept, currDept, newDeptNo);
                 if (result != null) {
                     return result;
                 }

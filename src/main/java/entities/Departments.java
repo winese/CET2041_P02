@@ -10,9 +10,12 @@ import java.util.List;
 @Table(name="departments")
 @AllArgsConstructor
 @NoArgsConstructor
+//@NamedQuery(name = "findDeptByDeptNo",
+//        query = "select d from Departments d " +
+//                "where d.deptNo = :deptNo"
+//)
 @Getter
 @Setter
-//@ToString
 public class Departments {
     @Id
     @Column(name="dept_no")

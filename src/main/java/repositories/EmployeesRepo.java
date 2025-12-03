@@ -5,7 +5,6 @@ import entities.*;
 import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,9 +63,10 @@ public class EmployeesRepo {
                 .getSingleResult();
     }
 
-    public String insertNewDept(Employees employee, Departments dept, DeptEmployees currDept, String newDeptNo) {
+    public String insertNewDept(Employees employee, Departments newDept,
+                                DeptEmployees currDept, String newDeptNo) {
         try {
-            DeptEmployees newDept = new DeptEmployees();
+            DeptEmployees newDeptEmployees = new DeptEmployees();
             LocalDate newToDate = LocalDate.of(9999,1,1);
 
             //Update existing department toDate if exist
@@ -79,13 +79,13 @@ public class EmployeesRepo {
             }
 
             //Insert new department
-            newDept.setDeptNo(newDeptNo);
-            newDept.setEmpNo(employee.getEmpNo());
-            newDept.setFromDate(LocalDate.now());
-            newDept.setToDate(newToDate);
-            newDept.setEmployees(employee);
-            newDept.setDepartment(dept);
-            em.persist(newDept);
+            newDeptEmployees.setDeptNo(newDeptNo);
+            newDeptEmployees.setEmpNo(employee.getEmpNo());
+            newDeptEmployees.setFromDate(LocalDate.now());
+            newDeptEmployees.setToDate(newToDate);
+            newDeptEmployees.setEmployees(employee);
+            newDeptEmployees.setDepartment(newDept);
+            em.persist(newDeptEmployees);
             return null;
         }
         catch (Exception e) {

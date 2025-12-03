@@ -13,7 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "Titles.findLatestTitleByEmpNo",
-                query = "SELECT t FROM Titles t WHERE t.empNo = :empNo AND t.toDate > CURRENT_DATE")
+                query = "SELECT t FROM Titles t " +
+                        "WHERE t.empNo = :empNo AND t.toDate > CURRENT_DATE")
 })
 @Getter
 @Setter

@@ -11,17 +11,10 @@ import java.time.LocalDate;
 @IdClass(DeptEmployeesId.class)
 @AllArgsConstructor
 @NoArgsConstructor
-//@NamedQuery(
-//        name = "Employees.endPoint3",
-//        query = "SELECT new DTO.EndPoint3DTO(" +
-//                "e.empNo, e.firstName, e.lastName, e.hireDate)" +
-//                "FROM DeptEmployees de " +
-//                "JOIN de.employees e " +
-//                "WHERE de.deptNo = :deptNo"
-//)
 @NamedQueries({
     @NamedQuery(name = "DeptEmployees.findLatestDeptByEmpNo",
-            query = "SELECT d FROM DeptEmployees d WHERE d.empNo = :empNo AND d.toDate > CURRENT_DATE")
+            query = "SELECT d FROM DeptEmployees d " +
+                    "WHERE d.empNo = :empNo AND d.toDate > CURRENT_DATE")
 })
 @Getter
 @Setter
@@ -49,7 +42,7 @@ public class DeptEmployees {
     private Employees employees;
     @ManyToOne
     @MapsId ("deptNo")
-    @JoinColumn(name="dept_no")
+    @JoinColumn(name="dept_no", insertable = false, updatable = false)
     private Departments department;
 
     @Override
