@@ -34,6 +34,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * TitlesId entity class
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

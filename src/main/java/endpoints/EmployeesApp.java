@@ -13,7 +13,7 @@ import java.util.Set;
 public class EmployeesApp extends Application {
     /**
      * Get Classes
-     * @return Set<Class<?>>
+     * @return collection of unique class
      */
     @Override
     public Set<Class<?>> getClasses() {

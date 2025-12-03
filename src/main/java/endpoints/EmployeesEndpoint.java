@@ -44,7 +44,7 @@ public class EmployeesEndpoint {
 
     /**
      * This is for endpoint 2 search employee by employee number
-     * @param @QueryParam("empNo") long empNo employee number
+     * @param empNo employee number
      * @return response
      */
     @GET
@@ -76,8 +76,8 @@ public class EmployeesEndpoint {
 
     /**
      * This is for endpoint 3 search employee by department number with page number
-     * @param @QueryParam("deptNo") String deptNo, @DefaultValue("1") @QueryParam("pgNo") int pgNo
-     *        department number, page number
+     * @param deptNo department number
+     * @param pgNo page number
      * @return response
      */
     @GET
