@@ -115,15 +115,17 @@ public class Service {
         if (promotion.getEmpNo() <= 0) {
             return "No Employee Number found";
         }
-        if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) > 0 && !promotion.isManager()
+        if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) < 0  && !promotion.isManager()
                 && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
                 && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
-                && promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty()) {
+                && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
             return "No promotion parameters found";
         }
 
-        if (promotion.getNewStartDate() != null || !promotion.getNewStartDate().isEmpty()) {
-            newStartDate = LocalDate.parse(promotion.getNewStartDate(), formatter);
+        if (promotion.getNewStartDate() != null) {
+            if (!promotion.getNewStartDate().isEmpty()) {
+                newStartDate = LocalDate.parse(promotion.getNewStartDate(), formatter);
+            }
         }
 
         if (newStartDate.isBefore(LocalDate.now())
