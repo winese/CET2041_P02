@@ -110,17 +110,24 @@ public class Service {
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
         EntityTransaction transaction = em.getTransaction();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        BigDecimal newSalary = BigDecimal.ZERO;
         LocalDate newStartDate = LocalDate.now();
 
         //Checking
         if (promotion.getEmpNo() <= 0) {
             return "No Employee Number found";
         }
-        if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) == 0  && !promotion.isManager()
-                && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
-                && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
-                && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
-            return "No promotion parameters found";
+
+        if (promotion.getNewSalary() != null) {
+            if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) == 0  && !promotion.isManager()
+                    && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
+                    && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
+                    && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
+                return "No promotion parameters found";
+            }
+            else {
+                newSalary = promotion.getNewSalary();
+            }
         }
 
         if (promotion.getNewStartDate() != null) {
@@ -138,7 +145,6 @@ public class Service {
             String result = null;
             long empNo = promotion.getEmpNo();
             Employees emp = employeesRepo.findEmployee(empNo);
-            BigDecimal newSalary = promotion.getNewSalary();
             String newTitle = promotion.getNewTitle();
             String newDeptNo = promotion.getNewDeptNo();
             boolean isManager = promotion.isManager();
@@ -191,7 +197,8 @@ public class Service {
                     return result;
                 }
             }
-            else if (newSalary.compareTo(BigDecimal.ZERO) < 0) {
+            else if (promotion.getNewSalary() != null && (newSalary.compareTo(BigDecimal.ZERO) < 0
+                    || newSalary.compareTo(currSalary.getSalary()) < 0)) {
                 return "Invalid new salary";
             }
 
