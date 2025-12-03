@@ -10,6 +10,8 @@ import jakarta.persistence.EntityTransaction;
 import repositories.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,11 +61,7 @@ public class Service {
 
         try {
             em.getTransaction().begin();
-            Employees employees = employeesRepo.findEmployee(id);
-            if (employees != null)
-                return employees;
-            else
-                return null;
+            return employeesRepo.findEmployee(id);
         }
         catch (Exception e) {
             throw new RuntimeException("There is issue during query.", e);
@@ -72,7 +70,6 @@ public class Service {
             em.close();
         }
     }
-
 
     /**
      * method to get Employee information of all employees in a given
@@ -111,6 +108,8 @@ public class Service {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
         EntityTransaction transaction = em.getTransaction();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate newStartDate = LocalDate.now();
 
         //Checking
         if (promotion.getEmpNo() <= 0) {
@@ -118,8 +117,18 @@ public class Service {
         }
         if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) > 0 && !promotion.isManager()
                 && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
-                && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())) {
+                && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
+                && promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty()) {
             return "No promotion parameters found";
+        }
+
+        if (promotion.getNewStartDate() != null || !promotion.getNewStartDate().isEmpty()) {
+            newStartDate = LocalDate.parse(promotion.getNewStartDate(), formatter);
+        }
+
+        if (newStartDate.isBefore(LocalDate.now())
+                || newStartDate.isAfter(LocalDate.of(9999,1,1))) {
+            return "Invalid start date";
         }
 
         try {
@@ -131,9 +140,7 @@ public class Service {
             String newDeptNo = promotion.getNewDeptNo();
             boolean isManager = promotion.isManager();
 
-
             transaction.begin();
-            System.out.println("Beginning transaction");
             DeptEmployees currDept = employeesRepo.findCurrDept(emp);
             Departments dept = currDept.getDepartment();
             Titles currTitle = employeesRepo.findCurrTitle(emp);
@@ -144,11 +151,10 @@ public class Service {
                     && !Objects.equals(currDept.getDepartment().getDeptNo(), newDeptNo)) {
                 if (newDeptNo.length() == 4) {
                     dept = em.find(Departments.class, newDeptNo);
-                    result = employeesRepo.insertNewDept(emp, dept, currDept, newDeptNo);
+                    result = employeesRepo.insertNewDept(emp, dept, currDept, newDeptNo, newStartDate);
                     if (result != null) {
                         return result;
                     }
-                    System.out.println("Changed departments");
                 } else if (newDeptNo.length() > 4) {
                     return "Invalid department number";
                 }
@@ -158,11 +164,10 @@ public class Service {
             if (!Objects.equals(newTitle, "") && !Objects.equals(newTitle, null)
                     && !Objects.equals(currTitle.getTitle(), newTitle)) {
                 if (newTitle.length() <= 50) {
-                    result = employeesRepo.insertNewTitle(emp, currTitle, newTitle);
+                    result = employeesRepo.insertNewTitle(emp, currTitle, newTitle, newStartDate);
                     if (result != null) {
                         return result;
                     }
-                    System.out.println("Changed title");
                 }
                 else return "Invalid title";
             }
@@ -170,27 +175,24 @@ public class Service {
 
             // Promote to Manager
             if (isManager) {
-                result = employeesRepo.insertNewManager(emp, currDept, dept, newDeptNo);
+                result = employeesRepo.insertNewManager(emp, currDept, dept, newDeptNo, newStartDate);
                 if (result != null) {
                     return result;
                 }
-                System.out.println("Promote to Manager");
             }
 
             // Changing Salary
             if ((newSalary.compareTo(BigDecimal.ZERO) > 0) && newSalary.compareTo(currSalary.getSalary()) > 0 ) {
-                result = employeesRepo.insertNewSalary(emp, currSalary, newSalary);
+                result = employeesRepo.insertNewSalary(emp, currSalary, newSalary, newStartDate);
                 if (result != null) {
                     return result;
                 }
-                System.out.println("Changed Salary");
             }
             else if (newSalary.compareTo(BigDecimal.ZERO) < 0) {
                 return "Invalid new salary";
             }
 
             transaction.commit();
-            System.out.println("Transaction committed");
                 return result;
         } catch (Exception e) {
             transaction.rollback();

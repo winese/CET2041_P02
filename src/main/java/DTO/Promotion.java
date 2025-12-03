@@ -1,9 +1,11 @@
 package DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * Promotion model
@@ -32,6 +34,10 @@ public class Promotion {
      * Variable for new department number
      */
     private String newDeptNo;
+    /**
+     * Variable for isManager
+     */
+    private String newStartDate;
     /**
      * Variable for isManager
      */

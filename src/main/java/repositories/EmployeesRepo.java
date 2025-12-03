@@ -113,14 +113,20 @@ public class EmployeesRepo {
      * @return String. null if successful, error message if not.
      */
     public String insertNewDept(Employees employee, Departments newDept,
-                                DeptEmployees currDept, String newDeptNo) {
+                                DeptEmployees currDept, String newDeptNo,
+                                LocalDate newStartDate) {
         try {
             DeptEmployees newDeptEmployees = new DeptEmployees();
+            LocalDate newFromDate = LocalDate.now();
             LocalDate newToDate = LocalDate.of(9999,1,1);
+
+            if (newStartDate != null) {
+                newFromDate = newStartDate;
+            }
 
             //Update existing department toDate if exist
             if (currDept != null) {
-                currDept.setToDate(LocalDate.now());
+                currDept.setToDate(newFromDate);
                 em.persist(currDept);
             }
             else{
@@ -130,7 +136,7 @@ public class EmployeesRepo {
             //Insert new department
             newDeptEmployees.setDepartment(newDept);
             newDeptEmployees.setEmployees(employee);
-            newDeptEmployees.setFromDate(LocalDate.now());
+            newDeptEmployees.setFromDate(newFromDate);
             newDeptEmployees.setToDate(newToDate);
             newDeptEmployees.setEmployees(employee);
             newDeptEmployees.setDepartment(newDept);
@@ -149,14 +155,19 @@ public class EmployeesRepo {
      * @param newTitle new title
      * @return String message. null if successful, error message if not.
      */
-    public String insertNewTitle(Employees employee, Titles currTitle, String newTitle) {
+    public String insertNewTitle(Employees employee, Titles currTitle, String newTitle, LocalDate newStartDate) {
         try {
             Titles title = new Titles();
+            LocalDate newFromDate = LocalDate.now();
             LocalDate newToDate = LocalDate.of(9999,1,1);
+
+            if (newStartDate != null) {
+                newFromDate = newStartDate;
+            }
 
             //Update existing title toDate if exist
             if (currTitle != null) {
-                currTitle.setToDate(LocalDate.now());
+                currTitle.setToDate(newFromDate);
                 em.persist(currTitle);
             }
             else{
@@ -166,7 +177,7 @@ public class EmployeesRepo {
             //Insert new department
             title.setEmployees(employee);
             title.setTitle(newTitle);
-            title.setFromDate(LocalDate.now());
+            title.setFromDate(newFromDate);
             title.setToDate(newToDate);
             title.setEmployees(employee);
             em.persist(title);
@@ -187,10 +198,16 @@ public class EmployeesRepo {
      */
     public String insertNewManager(Employees employee,
                                    DeptEmployees currDeptEmp,
-                                   Departments newDept, String newDeptNo) {
+                                   Departments newDept, String newDeptNo,
+                                   LocalDate newStartDate) {
         try {
             DeptManager newManager = new DeptManager();
+            LocalDate newFromDate = LocalDate.now();
             LocalDate newToDate = LocalDate.of(9999,1,1);
+
+            if (newStartDate != null) {
+                newFromDate = newStartDate;
+            }
 
             //Get current department number if there is no new department number input
             if (Objects.equals(newDeptNo, "")) {
@@ -206,7 +223,7 @@ public class EmployeesRepo {
                 //Insert new manager
                 newManager.setDepartment(newDept);
                 newManager.setEmployees(employee);
-                newManager.setFromDate(LocalDate.now());
+                newManager.setFromDate(newFromDate);
                 newManager.setToDate(newToDate);
                 newManager.setEmployees(employee);
 //                newManager.setDepartment(newDept);
@@ -226,14 +243,20 @@ public class EmployeesRepo {
      * @param newSalary new salary
      * @return String message. null if successful, error message if not.
      */
-    public String insertNewSalary(Employees employee, Salaries currSalary, BigDecimal newSalary) {
+    public String insertNewSalary(Employees employee, Salaries currSalary,
+                                  BigDecimal newSalary, LocalDate newStartDate) {
         try {
             Salaries salary = new Salaries();
+            LocalDate newFromDate = LocalDate.now();
             LocalDate newToDate = LocalDate.of(9999,1,1);
+
+            if (newStartDate != null) {
+                newFromDate = newStartDate;
+            }
 
             //Update existing salary toDate if exist
             if (currSalary != null) {
-                currSalary.setToDate(LocalDate.now());
+                currSalary.setToDate(newFromDate);
                 em.persist(currSalary);
             }
             else{
@@ -243,7 +266,7 @@ public class EmployeesRepo {
             //Insert new salary
             salary.setEmployees(employee);
             salary.setSalary(newSalary);
-            salary.setFromDate(LocalDate.now());
+            salary.setFromDate(newFromDate);
             salary.setToDate(newToDate);
             salary.setEmployees(employee);
             em.persist(salary);
