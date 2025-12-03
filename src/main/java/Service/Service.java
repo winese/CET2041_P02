@@ -119,14 +119,19 @@ public class Service {
         }
 
         if (promotion.getNewSalary() != null) {
-            if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) == 0  && !promotion.isManager()
+            newSalary = promotion.getNewSalary();
+            if (newSalary.compareTo(BigDecimal.ZERO) == 0  && !promotion.isManager()
                     && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
                     && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
                     && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
                 return "No promotion parameters found";
             }
-            else {
-                newSalary = promotion.getNewSalary();
+        }
+        else {
+            if (!promotion.isManager() && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
+                    && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
+                    && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
+                return "No promotion parameters found";
             }
         }
 
