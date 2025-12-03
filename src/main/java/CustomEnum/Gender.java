@@ -1,5 +1,16 @@
 package CustomEnum;
 
+/**
+ * Cust enum for employee gender.
+ */
 public enum Gender {
-    M, F
+    /**
+     * M for male
+     */
+    M,
+
+    /**
+     * F for female.
+     */
+    F
 }
