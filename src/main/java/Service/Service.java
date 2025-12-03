@@ -119,7 +119,7 @@ public class Service {
         if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) > 0 && !promotion.isManager()
                 && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
                 && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
-                && promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty()) {
+                && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
             return "No promotion parameters found";
         }
 

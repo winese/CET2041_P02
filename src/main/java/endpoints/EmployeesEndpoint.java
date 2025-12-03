@@ -128,6 +128,7 @@ public class EmployeesEndpoint {
     /**
      * This is for endpoint 4 to promote an employee
      * Below is the JSON format for user refer to the structure
+     * "newStartDate" IS COMPULSORY
      *{
      *   "empNo": 10003,
      *   "newSalary": 90000,
