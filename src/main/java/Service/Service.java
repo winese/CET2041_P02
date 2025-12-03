@@ -116,7 +116,7 @@ public class Service {
         if (promotion.getEmpNo() <= 0) {
             return "No Employee Number found";
         }
-        if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) < 0  && !promotion.isManager()
+        if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) == 0  && !promotion.isManager()
                 && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
                 && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())
                 && (promotion.getNewStartDate() == null || promotion.getNewStartDate().isEmpty())) {
