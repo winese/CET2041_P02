@@ -89,7 +89,8 @@ public class Service {
             if (!list.isEmpty())
                 return list;
             else{
-                return null;}
+                return null;
+            }
         }
         catch (Exception e) {
             throw new RuntimeException("There is issue during query.", e);

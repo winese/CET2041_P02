@@ -8,22 +8,24 @@ import jakarta.persistence.Persistence;
  * Creates entity Managers.
  */
 public class AppEntityManagerFactory {
+    private static AppEntityManagerFactory instance;
     private static EntityManagerFactory emf;
 
     /**
      * Constructor for EntityManagerFactory
      */
-    private AppEntityManagerFactory(){}
+    private AppEntityManagerFactory(){
+        emf = Persistence.createEntityManagerFactory("EmployeesPU");
+    }
 
     /**
      * getter for Entity Manager Instance
      * @return Entity Manager Instance
      */
     public static EntityManagerFactory getInstance(){
-        if (emf == null){
-            emf = Persistence.createEntityManagerFactory("EmployeesPU");
+        if (instance == null){
+            instance = new AppEntityManagerFactory();
         }
         return emf;
     }
-
 }
