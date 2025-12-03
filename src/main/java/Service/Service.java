@@ -90,15 +90,16 @@ public class Service {
             System.out.println("Beginning transaction");
             Employees employee = employeesRepo.findEmployee(empNo);
             DeptEmployees currDept = employeesRepo.findCurrDept(empNo);
+            Departments dept = currDept.getDepartment();
             Titles currTitle = employeesRepo.findCurrTitle(empNo);
             Salaries currSalary = employeesRepo.findCurrSalary(empNo);
 
             // Changing Departments
             if (!Objects.equals(newDeptNo, "") && !Objects.equals(newDeptNo, null)
                     && !Objects.equals(currDept.getDeptNo(), newDeptNo)) {
-                Departments newDept = em.find(Departments.class, newDeptNo);
+                dept = em.find(Departments.class, newDeptNo);
                 result = employeesRepo.insertNewDept(employee,
-                        newDept, currDept, newDeptNo);
+                        dept, currDept, newDeptNo);
                 if (result != null) {
                     return result;
                 }
@@ -117,7 +118,7 @@ public class Service {
 
             // Promote to Manager
             if (isManager) {
-                result = employeesRepo.insertNewManager(employee, currDept, newDeptNo);
+                result = employeesRepo.insertNewManager(employee, currDept, dept, newDeptNo);
                 if (result != null) {
                     return result;
                 }

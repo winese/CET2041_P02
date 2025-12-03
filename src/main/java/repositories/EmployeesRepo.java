@@ -122,7 +122,7 @@ public class EmployeesRepo {
         }
     }
 
-    public String insertNewManager(Employees employee, DeptEmployees currDept, String deptNo) {
+    public String insertNewManager(Employees employee, DeptEmployees currDept, Departments dept, String deptNo) {
         try {
             DeptManager newManager = new DeptManager();
             LocalDate newToDate = LocalDate.of(9999,1,1);
@@ -134,7 +134,7 @@ public class EmployeesRepo {
 
             //Check if exist
             List<DeptManager> curr = findManager(employee.getEmpNo(), deptNo);
-            if (curr != null) {
+            if (!curr.isEmpty()) {
                 return "Manager already exists";
             }
             else{
@@ -144,6 +144,7 @@ public class EmployeesRepo {
                 newManager.setFromDate(LocalDate.now());
                 newManager.setToDate(newToDate);
                 newManager.setEmployees(employee);
+                newManager.setDepartment(dept);
                 em.persist(newManager);
                 return null;
             }
