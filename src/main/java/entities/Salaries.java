@@ -1,5 +1,6 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -37,7 +38,7 @@ public class Salaries {
     @ManyToOne
     @MapsId ("empNo")
     @JoinColumn(name = "emp_no")
-    @JsonIgnore
+    @JsonBackReference
     private Employees employees;
 
     @Override

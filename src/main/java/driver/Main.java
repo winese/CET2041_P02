@@ -26,7 +26,7 @@ public class Main {
         DepartmentsRepo depRepo = new DepartmentsRepo();
         depRepo.findAllDepartments();
 
-        Promotion promotion = new Promotion(10001, 100000, "Manager", "d002", true);
+        Promotion promotion = new Promotion(10001, 0, "", "", true);
         //Employees employee = new Employees();
         //Titles title = new Titles();
         //Salaries salary = new Salaries();

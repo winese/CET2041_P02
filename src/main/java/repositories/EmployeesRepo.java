@@ -5,6 +5,7 @@ import entities.*;
 import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,11 +57,11 @@ public class EmployeesRepo {
                 .getSingleResult();
     }
 
-    public DeptManager findManager(int empNo, String deptNo) {
+    public List<DeptManager> findManager(int empNo, String deptNo) {
         return em.createNamedQuery("DeptManager.findDeptManagerByEmpNo", DeptManager.class)
                 .setParameter("empNo", empNo)
                 .setParameter("deptNo", deptNo)
-                .getSingleResult();
+                .getResultList();
     }
 
     public String insertNewDept(Employees employee, Departments newDept,
@@ -132,7 +133,7 @@ public class EmployeesRepo {
             }
 
             //Check if exist
-            DeptManager curr = findManager(employee.getEmpNo(), deptNo);
+            List<DeptManager> curr = findManager(employee.getEmpNo(), deptNo);
             if (curr != null) {
                 return "Manager already exists";
             }

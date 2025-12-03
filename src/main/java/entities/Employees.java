@@ -1,5 +1,6 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -43,12 +44,16 @@ public class Employees {
     private LocalDate hireDate;
 
     @OneToMany(mappedBy = "employees")
+    @JsonManagedReference
     private List<Salaries> salaries;
     @OneToMany(mappedBy = "employees")
+    @JsonManagedReference
     private List<Titles> titles;
     @OneToMany(mappedBy = "employees")
+    @JsonManagedReference
     private List<DeptEmployees> deptEmployees;
     @OneToMany(mappedBy = "employees")
+    @JsonManagedReference
     private List<DeptManager> deptManager;
 
     @Override

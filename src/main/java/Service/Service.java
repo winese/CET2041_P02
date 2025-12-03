@@ -94,7 +94,8 @@ public class Service {
             Salaries currSalary = employeesRepo.findCurrSalary(empNo);
 
             // Changing Departments
-            if (!Objects.equals(newDeptNo, "") && !Objects.equals(currDept.getDeptNo(), newDeptNo)) {
+            if (!Objects.equals(newDeptNo, "") && !Objects.equals(newDeptNo, null)
+                    && !Objects.equals(currDept.getDeptNo(), newDeptNo)) {
                 Departments newDept = em.find(Departments.class, newDeptNo);
                 result = employeesRepo.insertNewDept(employee,
                         newDept, currDept, newDeptNo);
@@ -105,8 +106,9 @@ public class Service {
             }
 
             // Changing Titles
-            if (!Objects.equals(newTitle, "") && !Objects.equals(currTitle.getTitle(), newTitle)) {
-                result = employeesRepo.insertNewTitle(employee, currTitle, newDeptNo);
+            if (!Objects.equals(newTitle, "") && !Objects.equals(newTitle, null)
+                    && !Objects.equals(currTitle.getTitle(), newTitle)) {
+                result = employeesRepo.insertNewTitle(employee, currTitle, newTitle);
                 if (result != null) {
                     return result;
                 }
