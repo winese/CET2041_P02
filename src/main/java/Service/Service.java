@@ -7,7 +7,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import EntityManagerFactory.AppEntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import jakarta.ws.rs.core.Response;
 import repositories.*;
 
 import java.util.List;
@@ -62,9 +61,9 @@ public class Service {
         }
 
         try {
-            String result = "";
+            String result = null;
             int empNo = promotion.getEmpNo();
-            int newSalary  = promotion.getNewSalary();
+            int newSalary = promotion.getNewSalary();
             String newTitle = promotion.getNewTitle();
             String newDeptNo = promotion.getNewDeptNo();
             boolean isManager = promotion.isManager();
@@ -102,79 +101,12 @@ public class Service {
             }
             transaction.commit();
             System.out.println("Transaction committed");
-            return null;
+            return result;
         } catch (Exception e) {
             transaction.rollback();
             return e.getMessage();
-        }
-        finally {
+        } finally {
             em.close();
-            //emf.close();
         }
     }
-
-//    // ! ENDPOINT 4
-//    public String promoteEmployee(Promotion promotion) {
-//        System.out.println("1");
-//        try {
-//            if (promotion != null) {
-//                if (promotion.getEmpNo() != 0) {
-//                    System.out.println("2");
-//                    Employees employee = employeesRepo.findEmployee(promotion.getEmpNo());
-//                    if (employee != null) {
-//                        System.out.println("3");
-//
-//                        DeptEmployees newDept = null;
-//                        DeptEmployees currDept = employeesRepo.queryLatestDept(promotion.getEmpNo());
-//                        String deptNo = currDept.getDeptNo();
-//
-//                        em.getTransaction().begin();
-//                        if (promotion.getDeptNo() != null) {
-//                            System.out.println("3-1");
-//                            if (!Objects.equals(deptNo, promotion.getDeptNo())) {
-//                                deptNo = promotion.getDeptNo();
-//                            }
-//                            newDept = employeesRepo.insertNewDept(deptNo,
-//                                    promotion.getEmpNo());
-//                        }
-//                        System.out.println("4");
-//                        if (!Objects.equals(promotion.getTitle(), "")) {
-//                            System.out.println("4-1");
-//                            Titles title = employeesRepo.insertNewEmployeeTitle(promotion.getEmpNo(), promotion.getTitle());
-//                        }
-//                        System.out.println("5");
-//                        if (promotion.isManager()) {
-//                            System.out.println("5-1");
-//                            DeptManager deptManager = employeesRepo.insertNewDeptManager(deptNo, promotion.getEmpNo());
-//                        }
-//                        System.out.println("6");
-//                        if (promotion.getRaise() != 0) {
-//                            System.out.println("6-1");
-//                            Salaries salary = employeesRepo.insertNewEmployeeSalary(promotion.getEmpNo(), promotion.getRaise());
-//                        }
-//                        System.out.println("7");
-//                        em.getTransaction().commit();
-//                        System.out.println("8");
-//                        return null;
-//                        //return Response.status(201).entity("Promoted " + promotion.getEmpNo()).build();
-//                    } else {
-//                        return "Employee not found.";
-//                    }
-//                } else {
-//                    return "No employee number found.";
-//                }
-//            } else {
-//                return "EMPTY JSON";
-//            }
-//        }
-//        catch (Exception ex) {
-//            transaction.rollback();
-//            return ex.getMessage();
-//        }
-//        finally {
-//            em.close();
-//            emf.close();
-//        }
-//    }
-
 }

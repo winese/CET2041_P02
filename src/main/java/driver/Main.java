@@ -1,5 +1,8 @@
 package driver;
 
+import DTO.Promotion;
+import Service.Service;
+import jakarta.ws.rs.core.Response;
 import repositories.DepartmentsRepo;
 
 public class Main {
@@ -9,6 +12,7 @@ public class Main {
 
         DepartmentsRepo depRepo = new DepartmentsRepo();
         depRepo.findAllDepartments();
+
 
 //        EmployeesRepo employeesRepo = new EmployeesRepo();
 //        System.out.println("Found " + employeesRepo.findEmployee(10001));
