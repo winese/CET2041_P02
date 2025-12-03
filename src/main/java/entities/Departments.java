@@ -1,7 +1,9 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+//import jakarta.inject.Named;
 import jakarta.persistence.*;
+//import jdk.jfr.Name;
 import lombok.*;
 
 import java.util.List;
@@ -13,6 +15,13 @@ import java.util.List;
 @Table(name="departments")
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name="Departments.getAllDepartments",
+                    query="select d from Departments d"),
+        @NamedQuery(name="Departments.getDeptNo",
+                    query="select d.deptNo from Departments d " +
+                            "where d.deptNo = :deptNo")
+})
 @Getter
 @Setter
 @ToString

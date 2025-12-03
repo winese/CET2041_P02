@@ -27,8 +27,10 @@ public class EmployeesRepo {
      * @return List of department names and department ID.
      */
     public List<Departments> getAllDepartments(){
-        return em.createQuery(
-                "SELECT d FROM Departments d",
+//        return em.createQuery(
+//                "SELECT d FROM Departments d",
+//                Departments.class).getResultList();
+        return em.createNamedQuery("Departments.getAllDepartments",
                 Departments.class).getResultList();
     }
 
@@ -50,11 +52,11 @@ public class EmployeesRepo {
      * @return employee number, first name, last name, hire date.
      */
     public List<EndPoint3DTO> getEndPoint3Infos(String deptNo, int pgNo) {
-        return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
-                .setParameter("deptNo", deptNo)
-                .setFirstResult((pgNo - 1) * 20)
-                .setMaxResults(20)
-                .getResultList();
+            return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
+                    .setParameter("deptNo", deptNo)
+                    .setFirstResult((pgNo - 1) * 20)
+                    .setMaxResults(20)
+                    .getResultList();
     }
 
     /**

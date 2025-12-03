@@ -21,7 +21,6 @@ public class EmployeesEndpoint {
      * This is for endpoint 1 Get all departments
      * @return response
      */
-    // ! ENDPOINT 1
     @GET
     @Path("/getAllDepartments")
     @Produces(MediaType.APPLICATION_JSON)
@@ -96,12 +95,13 @@ public class EmployeesEndpoint {
     @GET
     @Path("/searchDepartmentEmployees")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response endPoint3PlaceHolder(@QueryParam("deptNo") String deptNo,
+    public Response searchDepartmentEmployees(@QueryParam("deptNo") String deptNo,
                                          @DefaultValue("1") @QueryParam("pgNo") int pgNo) {
         Service service = new Service();
 
         try {
-            if (deptNo == null || Objects.equals(deptNo, "") || deptNo.length() != 4 || pgNo <= 0) {
+            if (deptNo == null || Objects.equals(deptNo, "")
+                    || deptNo.length() != 4 || pgNo <= 0) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Invalid parameters")
                         .build();
@@ -120,7 +120,7 @@ public class EmployeesEndpoint {
         }
         catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("There is issue during query")
+                    .entity("Invalid Inputs")
                     .build();
         }
     }
@@ -128,6 +128,7 @@ public class EmployeesEndpoint {
     /**
      * This is for endpoint 4 to promote an employee
      * Below is the JSON format for user refer to the structure
+     * "newStartDate" IS COMPULSORY
      *{
      *   "empNo": 10003,
      *   "newSalary": 90000,
