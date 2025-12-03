@@ -34,7 +34,9 @@ public class EmployeesEndpoint {
                 return Response.ok().entity(departments).build();
             }
             else {
-                return Response.noContent().build();
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("No record found")
+                        .build();
             }
         }
         catch (Exception e) {
@@ -67,7 +69,9 @@ public class EmployeesEndpoint {
                     return Response.ok().entity(employee).build();
                 }
                 else {
-                    return Response.noContent().build();
+                    return Response.status(Response.Status.NOT_FOUND)
+                            .entity("No record found")
+                            .build();
                 }
             }
         }
@@ -104,7 +108,9 @@ public class EmployeesEndpoint {
                     return Response.ok().entity(service.getEndPoint3Infos(deptNo, pgNo)).build();
                 }
                 else {
-                    return Response.noContent().build();
+                    return Response.status(Response.Status.NOT_FOUND)
+                            .entity("No record found")
+                            .build();
                 }
             }
         }
