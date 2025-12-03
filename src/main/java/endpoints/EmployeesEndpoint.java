@@ -14,6 +14,7 @@ public class EmployeesEndpoint {
 
     // ! ENDPOINT CALLS SERVICE, SERVICE CALLS REPO
 
+    //NEED TO CHECK WHEN JSON EMPTY, NOW STILL STATUS 200
     @GET
     @Path("/ping")
     public Response ping() {

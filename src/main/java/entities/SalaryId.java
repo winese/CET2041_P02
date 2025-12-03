@@ -1,16 +1,17 @@
 package entities;
 
+import jakarta.persistence.Embeddable;
 import lombok.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 public class SalaryId implements Serializable {
     private int empNo;
     private LocalDate fromDate;
@@ -27,5 +28,13 @@ public class SalaryId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(empNo, fromDate);
+    }
+
+    @Override
+    public String toString() {
+        return "SalaryId{" +
+                "empNo=" + empNo +
+                "fromDate=" + fromDate +
+                '}';
     }
 }

@@ -1,15 +1,16 @@
 package entities;
 
+import jakarta.persistence.Embeddable;
 import lombok.*;
-
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 public class DeptEmployeesId implements Serializable {
 
     private int empNo;
@@ -27,5 +28,13 @@ public class DeptEmployeesId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(deptNo, empNo);
+    }
+
+    @Override
+    public String toString() {
+        return "DeptEmployeesId{" +
+                "empNo=" + empNo +
+                "deptNo=" + deptNo +
+                '}';
     }
 }

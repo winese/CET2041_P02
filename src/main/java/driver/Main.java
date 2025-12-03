@@ -2,17 +2,45 @@ package driver;
 
 import DTO.Promotion;
 import Service.Service;
-import jakarta.ws.rs.core.Response;
+import entities.Employees;
+import entities.Salaries;
+import entities.Titles;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import repositories.DepartmentsRepo;
+import repositories.EmployeesRepo;
+import EntityManagerFactory.AppEntityManagerFactory;
 
 public class Main {
     static final String DBNAME = "employees";
 
     public static void main(String[] args) {
 
+        EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
+        EntityManager em = emf.createEntityManager();
+        Service service = new Service();
+        EmployeesRepo employeesRepo = new EmployeesRepo(em);
+        EntityTransaction transaction = em.getTransaction();
+
         DepartmentsRepo depRepo = new DepartmentsRepo();
         depRepo.findAllDepartments();
 
+        Promotion promotion = new Promotion(10001, 100000, "Manager", "d002", true);
+        //Employees employee = new Employees();
+        //Titles title = new Titles();
+        //Salaries salary = new Salaries();
+        //EmployeesRepo empRepo = new EmployeesRepo(em);
+
+        em.getTransaction().begin();
+        String result = service.promoteEmployee(promotion);
+        //title = service.promoteEmployee().findCurrTitle(10001);
+        //salary = empRepo.findCurrSalary(10001);
+        em.getTransaction().commit();
+        System.out.println("Persisted " + result);
+
+        em.close();
+        emf.close();
 
 //        EmployeesRepo employeesRepo = new EmployeesRepo();
 //        System.out.println("Found " + employeesRepo.findEmployee(10001));

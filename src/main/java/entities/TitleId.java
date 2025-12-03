@@ -28,17 +28,19 @@
 //
 package entities;
 
+import jakarta.persistence.Embeddable;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 public class TitleId implements Serializable {
     private int empNo;
     private String title;
@@ -57,5 +59,14 @@ public class TitleId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(empNo, title, fromDate);
+    }
+
+    @Override
+    public String toString() {
+        return "TitleId{" +
+                "empNo=" + empNo +
+                "title=" + title +
+                "fromDate=" + fromDate +
+                '}';
     }
 }

@@ -1,10 +1,10 @@
 package entities;
 
-import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="salaries")
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 })
 @Getter
 @Setter
-@ToString
+//@ToString
 public class Salaries {
     @Id
     @JsonIgnore
@@ -38,4 +38,14 @@ public class Salaries {
     @JoinColumn(name = "emp_no")
     @JsonIgnore
     private Employees employees;
+
+    @Override
+    public String toString() {
+        return "Salaries{" +
+                "empNo=" + empNo +
+                "salary=" + salary +
+                ", fromDate='" + fromDate +
+                ", toDate='" + toDate +
+                '}';
+    }
 }

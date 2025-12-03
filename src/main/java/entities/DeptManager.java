@@ -1,10 +1,9 @@
 package entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 
 @Entity
@@ -33,6 +32,7 @@ public class DeptManager {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name="to_date")
     private LocalDate toDate;
+
     @ManyToOne
     @MapsId ("empNo")
     @JoinColumn(name = "emp_no")
@@ -43,4 +43,14 @@ public class DeptManager {
     @JoinColumn(name="dept_no")
     @JsonIgnore
     private Departments dept;
+
+    @Override
+    public String toString() {
+        return "DeptManager{" +
+                "empNo=" + empNo +
+                "deptNo=" + deptNo +
+                ", fromDate='" + fromDate +
+                ", toDate=" + toDate +
+                '}';
+    }
 }

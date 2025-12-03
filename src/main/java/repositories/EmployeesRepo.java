@@ -24,7 +24,7 @@ public class EmployeesRepo {
                 Departments.class).getResultList();
     }
 
-    // ! ENDPOINT 2/4
+    // ! ENDPOINT 2 & 4
     public Employees findEmployee(int empNo) {
         return em.find(Employees.class, empNo);
     }
@@ -67,13 +67,12 @@ public class EmployeesRepo {
     public String insertNewDept(Employees employee, Departments dept, DeptEmployees currDept, String newDeptNo) {
         try {
             DeptEmployees newDept = new DeptEmployees();
-            LocalDate newToDate = LocalDate.of(9999,12,31);
+            LocalDate newToDate = LocalDate.of(9999,1,1);
 
             //Update existing department toDate if exist
             if (currDept != null) {
                 currDept.setToDate(LocalDate.now());
                 em.persist(currDept);
-                em.flush();
             }
             else{
                 return "Existing department not found";
@@ -84,9 +83,9 @@ public class EmployeesRepo {
             newDept.setEmpNo(employee.getEmpNo());
             newDept.setFromDate(LocalDate.now());
             newDept.setToDate(newToDate);
+            newDept.setEmployees(employee);
             newDept.setDepartment(dept);
             em.persist(newDept);
-            em.flush();
             return null;
         }
         catch (Exception e) {
@@ -97,13 +96,12 @@ public class EmployeesRepo {
     public String insertNewTitle(Employees employee, Titles currTitle, String newTitle) {
         try {
             Titles title = new Titles();
-            LocalDate newToDate = LocalDate.of(9999,12,31);
+            LocalDate newToDate = LocalDate.of(9999,1,1);
 
             //Update existing title toDate if exist
             if (currTitle != null) {
                 currTitle.setToDate(LocalDate.now());
                 em.persist(currTitle);
-                em.flush();
             }
             else{
                 return "Existing title not found";
@@ -116,7 +114,6 @@ public class EmployeesRepo {
             title.setToDate(newToDate);
             title.setEmployees(employee);
             em.persist(title);
-            em.flush();
             return null;
         }
         catch (Exception e) {
@@ -127,7 +124,7 @@ public class EmployeesRepo {
     public String insertNewManager(Employees employee, DeptEmployees currDept, String deptNo) {
         try {
             DeptManager newManager = new DeptManager();
-            LocalDate newToDate = LocalDate.of(9999,12,31);
+            LocalDate newToDate = LocalDate.of(9999,1,1);
 
             //Get current department number if there is no new department number input
             if (Objects.equals(deptNo, "")) {
@@ -147,7 +144,6 @@ public class EmployeesRepo {
                 newManager.setToDate(newToDate);
                 newManager.setEmployees(employee);
                 em.persist(newManager);
-                em.flush();
                 return null;
             }
         }
@@ -159,13 +155,12 @@ public class EmployeesRepo {
     public String insertNewSalary(Employees employee, Salaries currSalary, int newSalary) {
         try {
             Salaries salary = new Salaries();
-            LocalDate newToDate = LocalDate.of(9999,12,31);
+            LocalDate newToDate = LocalDate.of(9999,1,1);
 
             //Update existing salary toDate if exist
             if (currSalary != null) {
                 currSalary.setToDate(LocalDate.now());
                 em.persist(currSalary);
-                em.flush();
             }
             else{
                 return "Existing salary not found";
@@ -178,7 +173,6 @@ public class EmployeesRepo {
             salary.setToDate(newToDate);
             salary.setEmployees(employee);
             em.persist(salary);
-            em.flush();
             return null;
         }
         catch (Exception e) {
