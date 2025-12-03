@@ -32,6 +32,7 @@ public class DeptEmployees {
     @JsonIgnore
     private int empNo;
     @Id
+    @JsonIgnore
     @Column(name="dept_no")
     private String deptNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -49,7 +50,6 @@ public class DeptEmployees {
     @ManyToOne
     @MapsId ("deptNo")
     @JoinColumn(name="dept_no")
-    @JsonIgnore
     private Departments department;
 
     @Override

@@ -20,10 +20,11 @@ import java.time.LocalDate;
 @ToString
 public class DeptManager {
     @Id
-    @Column(name="emp_no")
     @JsonIgnore
+    @Column(name="emp_no")
     private int empNo;
     @Id
+    @JsonIgnore
     @Column(name="dept_no")
     private String deptNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -41,8 +42,7 @@ public class DeptManager {
     @ManyToOne
     @MapsId ("deptNo")
     @JoinColumn(name="dept_no")
-    @JsonIgnore
-    private Departments dept;
+    private Departments department;
 
     @Override
     public String toString() {
