@@ -1,37 +1,26 @@
 package endpoints;
 
-import DTO.EndPoint3DTO;
-import DTO.Promotion;
-import Service.Service;
-import entities.Departments;
-import entities.Employees;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import EntityManagerFactory.AppEntityManagerFactory;
-
 import java.util.List;
 import java.util.Objects;
+import entities.Departments;
+import entities.Employees;
+import Service.Service;
+import DTO.EndPoint3DTO;
+import DTO.Promotion;
 
+/**
+ * Endpoint
+ */
 @Path("/employees")
 public class EmployeesEndpoint {
 
-    // ! ENDPOINT CALLS SERVICE, SERVICE CALLS REPO
-
-    //NEED TO CHECK WHEN JSON EMPTY, NOW STILL STATUS 200
-    @GET
-    @Path("/ping")
-    public Response ping() {
-//        return Response.ok().entity("Service online").build();
-        EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
-        EntityManager em = emf.createEntityManager();
-        String result = (String) em.createNativeQuery("SELECT DATABASE()").getSingleResult();
-        return Response.ok("Connected to: " + result).build();
-
-    }
-
+    /**
+     * This is for endpoint 1 Get all departments
+     * @return response
+     */
     // ! ENDPOINT 1
     @GET
     @Path("/getAllDepartments")
@@ -53,7 +42,11 @@ public class EmployeesEndpoint {
         }
     }
 
-    // ! ENDPOINT 2
+    /**
+     * This is for endpoint 2 search employee by employee number
+     * @param @QueryParam("empNo") long empNo employee number
+     * @return response
+     */
     @GET
     @Path("/searchEmployee")
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,7 +74,12 @@ public class EmployeesEndpoint {
         }
     }
 
-    // ! ENDPOINT 3
+    /**
+     * This is for endpoint 3 search employee by department number with page number
+     * @param @QueryParam("deptNo") String deptNo, @DefaultValue("1") @QueryParam("pgNo") int pgNo
+     *        department number, page number
+     * @return response
+     */
     @GET
     @Path("/searchDepartmentEmployees")
     @Produces(MediaType.APPLICATION_JSON)
@@ -110,7 +108,11 @@ public class EmployeesEndpoint {
         }
     }
 
-    // ! Endpoint 4
+    /**
+     * This is for endpoint 4 to promote an employee
+     * @param promotion promotion
+     * @return response
+     */
     @POST
     @Path("/promoteEmployee")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -34,7 +34,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-//@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -45,6 +44,11 @@ public class TitleId implements Serializable {
     private String title;
     private LocalDate fromDate;
 
+    /**
+     * Object logical equality method
+     * @param o object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,17 +59,12 @@ public class TitleId implements Serializable {
         return employees == t.employees;
     }
 
+    /**
+     * Object hash code method
+     * @return object hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(employees, title, fromDate);
     }
-
-//    @Override
-//    public String toString() {
-//        return "TitleId{" +
-//                "employees=" + employees +
-//                "title=" + title +
-//                "fromDate=" + fromDate +
-//                '}';
-//    }
 }

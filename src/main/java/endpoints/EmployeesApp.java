@@ -6,8 +6,15 @@ import jakarta.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Enpoint app
+ */
 @ApplicationPath("/api")
 public class EmployeesApp extends Application {
+    /**
+     * Get Classes
+     * @return Set<Class<?>>
+     */
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<Class<?>>();

@@ -1,21 +1,33 @@
 package entities;
 
-import jakarta.persistence.Embeddable;
 import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-//@Embeddable
+/**
+ * SalariesId entity class
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class SalaryId implements Serializable {
+    /**
+     * Variable for employee number
+     */
     private long employees;
+    /**
+     * Variable for fromDate
+     */
     private LocalDate fromDate;
 
+    /**
+     * Object logical equality method
+     * @param o object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -25,16 +37,12 @@ public class SalaryId implements Serializable {
         return employees == s.employees;
     }
 
+    /**
+     * Object hash code method
+     * @return object hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(employees, fromDate);
     }
-
-//    @Override
-//    public String toString() {
-//        return "SalaryId{" +
-//                "employees=" + employees +
-//                "fromDate=" + fromDate +
-//                '}';
-//    }
 }
