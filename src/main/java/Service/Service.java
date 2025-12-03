@@ -13,10 +13,21 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Service class. Supports the endpoints class and calls the repo.
+ */
 public class Service {
 
+    /**
+     * Entity Manager Single instance.
+     */
     private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
 
+    /**
+     * Method to get Department ID and name of all departments.
+     * No input from user.
+     * @return List of all departments.
+     */
     public List<Departments> getAllDepartments() {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
@@ -35,10 +46,13 @@ public class Service {
         finally{
             em.close();
         }
-        // ! ADD MORE TEST CASES
     }
 
-    // ! ENDPOINT 2
+    /**
+     * Method to get Employee's full information by employee ID.
+     * @param id employee ID
+     * @return Employee object
+     */
     public Employees getEmployeeById(long id) {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
@@ -57,11 +71,17 @@ public class Service {
         finally{
             em.close();
         }
-        // ! ADD MORE TEST CASES
     }
 
 
-    // ! ENDPOINT 3
+    /**
+     * method to get Employee information of all employees in a given
+     * department.
+     * Information is grouped into pages of 20 entries. Takes in page number.
+     * @param deptNo department ID
+     * @param pgNo page number, default value of 1.
+     * @return List of employee information.
+     */
     public List<EndPoint3DTO> getEndPoint3Infos(String deptNo, int pgNo) {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
@@ -80,15 +100,13 @@ public class Service {
         finally{
             em.close();
         }
-        // ! ADD MORE TEST CASES
     }
 
     /**
-     * JSON Format:
-     * @param promotion
-     * @return
+     * Method to promote an employee.
+     * @param promotion promotion DTO
+     * @return String message. Null if successful, else error message.
      */
-    // ! ENDPOINT 4
     public String promoteEmployee(Promotion promotion) {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
