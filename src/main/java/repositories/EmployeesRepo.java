@@ -9,27 +9,46 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Data Access Class.
+ */
 public class EmployeesRepo {
 
+    /**
+     * Entity Manger.
+     */
     protected EntityManager em;
     public EmployeesRepo(EntityManager em) {
         this.em = em;
     }
 
-
-    // ! ENDPOINT 1
+    /**
+     * method to get all departments' information. Does not take in user input.
+     * @return List of department names and department ID.
+     */
     public List<Departments> getAllDepartments(){
         return em.createQuery(
                 "SELECT d FROM Departments d",
                 Departments.class).getResultList();
     }
 
-    // ! ENDPOINT 2 & 4
+    /**
+     * Method to find employee information given an employee number
+     * @param empNo employee number
+     * @return all employee information.
+     */
     public Employees findEmployee(long empNo) {
         return em.find(Employees.class, empNo);
     }
 
-    // ! ENDPOINT 3
+    /**
+     * Method to get the information of all employees in a given department.
+     * Output information is grouped into pages every 20 entries.
+     * User can input a page number.
+     * @param deptNo department number.
+     * @param pgNo page number. Default value of 1.
+     * @return employee number, first name, last name, hire date.
+     */
     public List<EndPoint3DTO> getEndPoint3Infos(String deptNo, int pgNo) {
         return em.createNamedQuery("Employees.endPoint3", EndPoint3DTO.class)
                 .setParameter("deptNo", deptNo)
@@ -38,25 +57,46 @@ public class EmployeesRepo {
                 .getResultList();
     }
 
-    // ! ENDPOINT 4
+    /**
+     * method to find current department of an employee
+     * @param emp employee object, tied to employee number.
+     * @return DeptEmployees object, tied to department.
+     */
     public DeptEmployees findCurrDept(Employees emp) {
         return em.createNamedQuery("DeptEmployees.findLatestDeptByEmpNo", DeptEmployees.class)
                 .setParameter("emp", emp)
                 .getSingleResult();
     }
 
+    /**
+     * Method to find current title of an employee
+     * @param emp employee object, tied to employee number
+     * @return title.
+     */
     public Titles findCurrTitle(Employees emp) {
         return em.createNamedQuery("Titles.findLatestTitleByEmpNo", Titles.class)
                 .setParameter("emp", emp)
                 .getSingleResult();
     }
 
+    /**
+     * Method to find current salary of an employee
+     * @param emp employee number
+     * @return salary
+     */
     public Salaries findCurrSalary(Employees emp) {
         return em.createNamedQuery("Salaries.findLatestSalaryByEmpNo", Salaries.class)
                 .setParameter("emp", emp)
                 .getSingleResult();
     }
 
+    /**
+     * Method to find Manager(s) of a department.
+     * @param emp employee ID to check if employee is the manager of the
+     *            department.
+     * @param dept department ID.
+     * @return List of department maangers
+     */
     public List<DeptManager> findManager(Employees emp, Departments dept) {
         return em.createNamedQuery("DeptManager.findDeptManagerByEmpNo", DeptManager.class)
                 .setParameter("emp", emp)
@@ -64,6 +104,14 @@ public class EmployeesRepo {
                 .getResultList();
     }
 
+    /**
+     * Method to insert employee into a new department
+     * @param employee employee
+     * @param newDept new department
+     * @param currDept current department
+     * @param newDeptNo new department number
+     * @return String. null if successful, error message if not.
+     */
     public String insertNewDept(Employees employee, Departments newDept,
                                 DeptEmployees currDept, String newDeptNo) {
         try {
@@ -94,6 +142,13 @@ public class EmployeesRepo {
         }
     }
 
+    /**
+     * Method to give an employee a new title.
+     * @param employee employee
+     * @param currTitle current title
+     * @param newTitle new title
+     * @return String message. null if successful, error message if not.
+     */
     public String insertNewTitle(Employees employee, Titles currTitle, String newTitle) {
         try {
             Titles title = new Titles();
@@ -122,6 +177,14 @@ public class EmployeesRepo {
         }
     }
 
+    /**
+     * Method to add new manager.
+     * @param employee employee
+     * @param currDeptEmp current DepartmentEmployee object.
+     * @param newDept new department
+     * @param newDeptNo new department ID
+     * @return String message. null if successful, error message if not.
+     */
     public String insertNewManager(Employees employee,
                                    DeptEmployees currDeptEmp,
                                    Departments newDept, String newDeptNo) {
@@ -156,6 +219,13 @@ public class EmployeesRepo {
         }
     }
 
+    /**
+     * Method to give an employee a new salary.
+     * @param employee employee
+     * @param currSalary current salary
+     * @param newSalary new salary
+     * @return String message. null if successful, error message if not.
+     */
     public String insertNewSalary(Employees employee, Salaries currSalary, BigDecimal newSalary) {
         try {
             Salaries salary = new Salaries();

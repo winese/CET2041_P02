@@ -16,11 +16,7 @@ import java.util.Objects;
 public class Service {
 
     private EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
-//    EntityManager em = emf.createEntityManager();
-//    EmployeesRepo employeesRepo = new EmployeesRepo(em);
-//    EntityTransaction transaction = em.getTransaction();
 
-    // ! ENDPOINT !
     public List<Departments> getAllDepartments() {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
@@ -87,6 +83,11 @@ public class Service {
         // ! ADD MORE TEST CASES
     }
 
+    /**
+     * JSON Format:
+     * @param promotion
+     * @return
+     */
     // ! ENDPOINT 4
     public String promoteEmployee(Promotion promotion) {
         EntityManager em = emf.createEntityManager();
