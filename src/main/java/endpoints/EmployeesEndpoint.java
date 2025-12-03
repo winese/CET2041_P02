@@ -121,6 +121,7 @@ public class EmployeesEndpoint {
      *   "newSalary": 90000,
      *   "newTitle": "Manager",
      *   "newDeptNo": "d001",
+     *   "newStartDate": "13/12/2025",
      *   "isManager": true
      *}
      * Where:
@@ -129,6 +130,7 @@ public class EmployeesEndpoint {
      * newSalary is the new salary (Integer)
      * newtitle is the new title (String)
      * newDeptNo is the new department number (String)
+     * newStartDate is the new start date if any (LocalDate)
      * isManager is the indicator whether promote an employee to manager (Boolean)
      * @param promotion promotion
      * @return response
