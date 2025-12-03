@@ -14,20 +14,32 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "DeptManager.findDeptManagerByEmpNo",
-                query = "SELECT m FROM DeptManager m WHERE m.empNo = :empNo AND m.deptNo = :deptNo")
+                query = "SELECT m FROM DeptManager m WHERE m.employees = " +
+                        ":emp AND m.department = :newDept")
 })
 @Getter
 @Setter
 @ToString
 public class DeptManager {
+//    @Id
+//    @JsonIgnore
+//    @Column(name="emp_no")
+//    private int employees;
+//    @Id
+//    @JsonIgnore
+//    @Column(name="dept_no")
+//    private String department;
     @Id
+    @ManyToOne
+//    @MapsId ("employees")
+    @JoinColumn(name = "emp_no", referencedColumnName = "emp_no")
     @JsonIgnore
-    @Column(name="emp_no")
-    private int empNo;
+    private Employees employees;
     @Id
-    @JsonIgnore
-    @Column(name="dept_no")
-    private String deptNo;
+    @ManyToOne
+//    @MapsId ("department")
+    @JoinColumn(name="dept_no", referencedColumnName = "dept_no")
+    private Departments department;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name="from_date")
     private LocalDate fromDate;
@@ -35,21 +47,12 @@ public class DeptManager {
     @Column(name="to_date")
     private LocalDate toDate;
 
-    @ManyToOne
-    @MapsId ("empNo")
-    @JoinColumn(name = "emp_no")
-    @JsonIgnore
-    private Employees employees;
-    @ManyToOne
-    @MapsId ("deptNo")
-    @JoinColumn(name="dept_no")
-    private Departments department;
 
     @Override
     public String toString() {
         return "DeptManager{" +
-                "empNo=" + empNo +
-                "deptNo=" + deptNo +
+//                "employees=" + employees +
+//                "department=" + department +
                 ", fromDate='" + fromDate +
                 ", toDate=" + toDate +
                 '}';

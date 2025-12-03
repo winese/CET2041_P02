@@ -18,7 +18,7 @@
 //public class TitleId implements Serializable {
 //    @Column(name = "emp_no")
 //    @JsonIgnore
-//    private int empNo;
+//    private int employees;
 //    @Column(name = "title")
 //    private String title;
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -42,7 +42,7 @@ import java.util.Objects;
 @Setter
 //@ToString
 public class TitleId implements Serializable {
-    private int empNo;
+    private int employees;
     private String title;
     private LocalDate fromDate;
 
@@ -53,18 +53,18 @@ public class TitleId implements Serializable {
         TitleId t = (TitleId) o;
         if (!Objects.equals(title, t.title)) return false;
         if (!Objects.equals(fromDate, t.fromDate)) return false;
-        return empNo == t.empNo;
+        return employees == t.employees;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(empNo, title, fromDate);
+        return Objects.hash(employees, title, fromDate);
     }
 
     @Override
     public String toString() {
         return "TitleId{" +
-                "empNo=" + empNo +
+                "employees=" + employees +
                 "title=" + title +
                 "fromDate=" + fromDate +
                 '}';

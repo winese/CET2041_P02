@@ -15,16 +15,17 @@ import java.time.LocalDate;
 @NamedQueries({
         @NamedQuery(name = "Titles.findLatestTitleByEmpNo",
                 query = "SELECT t FROM Titles t " +
-                        "WHERE t.empNo = :empNo AND t.toDate > CURRENT_DATE")
+                        "WHERE t.employees = :emp AND t.toDate > " +
+                        "CURRENT_DATE")
 })
 @Getter
 @Setter
 //@ToString
 public class Titles {
-    @Id
-    @JsonIgnore
-    @Column(name="emp_no")
-    private int empNo;
+//    @Id
+//    @JsonIgnore
+//    @Column(name="emp_no", insertable = false, updatable = false)
+//    private int employees;
     @Id
     @Column(name="title")
     private String title;
@@ -37,15 +38,15 @@ public class Titles {
     private LocalDate toDate;
 
     @ManyToOne
-    @MapsId ("empNo")
-    @JoinColumn(name = "emp_no")
+    @MapsId ("employees")
+    @JoinColumn(name = "emp_no", referencedColumnName = "emp_no")
     @JsonBackReference
     private Employees employees;
 
     @Override
     public String toString() {
         return "Titles{" +
-                "empNo=" + empNo +
+//                "employees=" + employees +
                 "title=" + title +
                 ", fromDate='" + fromDate +
                 ", toDate='" + toDate +

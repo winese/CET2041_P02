@@ -13,7 +13,7 @@ import java.util.Objects;
 @Setter
 //@ToString
 public class SalaryId implements Serializable {
-    private int empNo;
+    private int employees;
     private LocalDate fromDate;
 
     @Override
@@ -22,18 +22,18 @@ public class SalaryId implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         SalaryId s = (SalaryId) o;
         if (!Objects.equals(fromDate, s.fromDate)) return false;
-        return empNo == s.empNo;
+        return employees == s.employees;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(empNo, fromDate);
+        return Objects.hash(employees, fromDate);
     }
 
     @Override
     public String toString() {
         return "SalaryId{" +
-                "empNo=" + empNo +
+                "employees=" + employees +
                 "fromDate=" + fromDate +
                 '}';
     }

@@ -105,52 +105,52 @@ public class Service {
         try {
             String result = null;
             int empNo = promotion.getEmpNo();
+            Employees emp = employeesRepo.findEmployee(empNo);
             int newSalary = promotion.getNewSalary();
             String newTitle = promotion.getNewTitle();
             String newDeptNo = promotion.getNewDeptNo();
             boolean isManager = promotion.isManager();
 
+
             transaction.begin();
             System.out.println("Beginning transaction");
-            Employees employee = employeesRepo.findEmployee(empNo);
-            DeptEmployees currDept = employeesRepo.findCurrDept(empNo);
+            DeptEmployees currDept = employeesRepo.findCurrDept(emp);
             Departments dept = currDept.getDepartment();
-            Titles currTitle = employeesRepo.findCurrTitle(empNo);
-            Salaries currSalary = employeesRepo.findCurrSalary(empNo);
+            Titles currTitle = employeesRepo.findCurrTitle(emp);
+            Salaries currSalary = employeesRepo.findCurrSalary(emp);
 
             // Changing Departments
             if (!Objects.equals(newDeptNo, "") && !Objects.equals(newDeptNo, null)
-                    && !Objects.equals(currDept.getDeptNo(), newDeptNo)
-                    && newDeptNo.length() == 4) {
-                dept = em.find(Departments.class, newDeptNo);
-                result = employeesRepo.insertNewDept(employee,
-                        dept, currDept, newDeptNo);
-                if (result != null) {
-                    return result;
+                    && !Objects.equals(currDept.getDepartment().getDeptNo(), newDeptNo)) {
+                if (newDeptNo.length() == 4) {
+                    dept = em.find(Departments.class, newDeptNo);
+                    result = employeesRepo.insertNewDept(emp, dept, currDept, newDeptNo);
+                    if (result != null) {
+                        return result;
+                    }
+                    System.out.println("Changed departments");
+                } else if (newDeptNo.length() > 4) {
+                    return "Invalid department number";
                 }
-                System.out.println("Changed departments");
-            }
-            else if (newDeptNo.length() > 4) {
-                return "Invalid department number";
             }
 
             // Changing Titles
             if (!Objects.equals(newTitle, "") && !Objects.equals(newTitle, null)
-                    && !Objects.equals(currTitle.getTitle(), newTitle)
-                    && newTitle.length() < 50) {
-                result = employeesRepo.insertNewTitle(employee, currTitle, newTitle);
-                if (result != null) {
-                    return result;
+                    && !Objects.equals(currTitle.getTitle(), newTitle)) {
+                if (newTitle.length() <= 50) {
+                    result = employeesRepo.insertNewTitle(emp, currTitle, newTitle);
+                    if (result != null) {
+                        return result;
+                    }
+                    System.out.println("Changed title");
                 }
-                System.out.println("Changed title");
+                else return "Invalid title";
             }
-            else if (newTitle.length() > 50) {
-                return "Invalid title, title must within 50 characters";
-            }
+
 
             // Promote to Manager
             if (isManager) {
-                result = employeesRepo.insertNewManager(employee, currDept, dept, newDeptNo);
+                result = employeesRepo.insertNewManager(emp, currDept, dept, newDeptNo);
                 if (result != null) {
                     return result;
                 }
@@ -159,7 +159,7 @@ public class Service {
 
             // Changing Salary
             if ((newSalary > 0 && newSalary <= 99999999999L) && newSalary > currSalary.getSalary() ) {
-                result = employeesRepo.insertNewSalary(employee, currSalary, newSalary);
+                result = employeesRepo.insertNewSalary(emp, currSalary, newSalary);
                 if (result != null) {
                     return result;
                 }
@@ -170,7 +170,7 @@ public class Service {
             }
             transaction.commit();
             System.out.println("Transaction committed");
-            return result;
+                return result;
         } catch (Exception e) {
             transaction.rollback();
             return e.getMessage();

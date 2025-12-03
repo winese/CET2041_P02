@@ -39,28 +39,28 @@ public class EmployeesRepo {
     }
 
     // ! ENDPOINT 4
-    public DeptEmployees findCurrDept(int empNo) {
+    public DeptEmployees findCurrDept(Employees emp) {
         return em.createNamedQuery("DeptEmployees.findLatestDeptByEmpNo", DeptEmployees.class)
-                .setParameter("empNo", empNo)
+                .setParameter("emp", emp)
                 .getSingleResult();
     }
 
-    public Titles findCurrTitle(int empNo) {
+    public Titles findCurrTitle(Employees emp) {
         return em.createNamedQuery("Titles.findLatestTitleByEmpNo", Titles.class)
-                .setParameter("empNo", empNo)
+                .setParameter("emp", emp)
                 .getSingleResult();
     }
 
-    public Salaries findCurrSalary(int empNo) {
+    public Salaries findCurrSalary(Employees emp) {
         return em.createNamedQuery("Salaries.findLatestSalaryByEmpNo", Salaries.class)
-                .setParameter("empNo", empNo)
+                .setParameter("emp", emp)
                 .getSingleResult();
     }
 
-    public List<DeptManager> findManager(int empNo, String deptNo) {
+    public List<DeptManager> findManager(Employees emp, Departments dept) {
         return em.createNamedQuery("DeptManager.findDeptManagerByEmpNo", DeptManager.class)
-                .setParameter("empNo", empNo)
-                .setParameter("deptNo", deptNo)
+                .setParameter("emp", emp)
+                .setParameter("newDept", dept)
                 .getResultList();
     }
 
@@ -80,8 +80,8 @@ public class EmployeesRepo {
             }
 
             //Insert new department
-            newDeptEmployees.setDeptNo(newDeptNo);
-            newDeptEmployees.setEmpNo(employee.getEmpNo());
+            newDeptEmployees.setDepartment(newDept);
+            newDeptEmployees.setEmployees(employee);
             newDeptEmployees.setFromDate(LocalDate.now());
             newDeptEmployees.setToDate(newToDate);
             newDeptEmployees.setEmployees(employee);
@@ -109,7 +109,7 @@ public class EmployeesRepo {
             }
 
             //Insert new department
-            title.setEmpNo(employee.getEmpNo());
+            title.setEmployees(employee);
             title.setTitle(newTitle);
             title.setFromDate(LocalDate.now());
             title.setToDate(newToDate);
@@ -122,29 +122,31 @@ public class EmployeesRepo {
         }
     }
 
-    public String insertNewManager(Employees employee, DeptEmployees currDept, Departments dept, String deptNo) {
+    public String insertNewManager(Employees employee,
+                                   DeptEmployees currDeptEmp,
+                                   Departments newDept, String newDeptNo) {
         try {
             DeptManager newManager = new DeptManager();
             LocalDate newToDate = LocalDate.of(9999,1,1);
 
             //Get current department number if there is no new department number input
-            if (Objects.equals(deptNo, "")) {
-                deptNo = currDept.getDeptNo();
+            if (Objects.equals(newDeptNo, "")) {
+                newDeptNo = currDeptEmp.getDepartment().getDeptNo();
             }
 
             //Check if exist
-            List<DeptManager> curr = findManager(employee.getEmpNo(), deptNo);
+            List<DeptManager> curr = findManager(employee, newDept);
             if (!curr.isEmpty()) {
                 return "Manager already exists";
             }
             else{
                 //Insert new manager
-                newManager.setDeptNo(deptNo);
-                newManager.setEmpNo(employee.getEmpNo());
+                newManager.setDepartment(newDept);
+                newManager.setEmployees(employee);
                 newManager.setFromDate(LocalDate.now());
                 newManager.setToDate(newToDate);
                 newManager.setEmployees(employee);
-                newManager.setDepartment(dept);
+//                newManager.setDepartment(newDept);
                 em.persist(newManager);
                 return null;
             }
@@ -169,7 +171,7 @@ public class EmployeesRepo {
             }
 
             //Insert new salary
-            salary.setEmpNo(employee.getEmpNo());
+            salary.setEmployees(employee);
             salary.setSalary(newSalary);
             salary.setFromDate(LocalDate.now());
             salary.setToDate(newToDate);

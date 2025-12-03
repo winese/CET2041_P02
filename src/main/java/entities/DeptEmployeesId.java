@@ -1,11 +1,10 @@
 package entities;
 
-import jakarta.persistence.Embeddable;
 import lombok.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
+//@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,28 +12,29 @@ import java.util.Objects;
 //@ToString
 public class DeptEmployeesId implements Serializable {
 
-    private int empNo;
-    private String deptNo;
+    private int employees;
+    private String department;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeptEmployeesId k = (DeptEmployeesId) o;
-        if (!Objects.equals(deptNo, k.deptNo)) return false;
-        return empNo == k.empNo;
+//        if (!Objects.equals(department, k.department)) return false;
+//        return employees == k.employees;
+        return employees == k.employees && Objects.equals(department, k.department);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deptNo, empNo);
+        return Objects.hash(department, employees);
     }
 
     @Override
     public String toString() {
         return "DeptEmployeesId{" +
-                "empNo=" + empNo +
-                "deptNo=" + deptNo +
+                "employees=" + employees +
+                "department=" + department +
                 '}';
     }
 }

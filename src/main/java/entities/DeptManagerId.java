@@ -14,28 +14,28 @@ import java.util.Objects;
 //@ToString
 public class DeptManagerId implements Serializable {
 
-    private int empNo;
-    private String deptNo;
+    private int employees;
+    private String department;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeptManagerId k = (DeptManagerId) o;
-        if (!Objects.equals(deptNo, k.deptNo)) return false;
-        return empNo == k.empNo;
+        if (!Objects.equals(department, k.department)) return false;
+        return employees == k.employees;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deptNo, empNo);
+        return Objects.hash(department, employees);
     }
 
     @Override
     public String toString() {
         return "DeptManagerId{" +
-                "empNo=" + empNo +
-                "deptNo=" + deptNo +
+                "employees=" + employees +
+                "department=" + department +
                 '}';
     }
 }

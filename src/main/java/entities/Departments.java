@@ -11,10 +11,6 @@ import java.util.List;
 @Table(name="departments")
 @AllArgsConstructor
 @NoArgsConstructor
-//@NamedQuery(name = "findDeptByDeptNo",
-//        query = "select d from Departments d " +
-//                "where d.deptNo = :deptNo"
-//)
 @Getter
 @Setter
 public class Departments {
@@ -27,6 +23,7 @@ public class Departments {
     @OneToMany(mappedBy = "department")
     @JsonIgnore
     private List<DeptEmployees> deptEmployees;
+
     @OneToMany(mappedBy = "department")
     @JsonIgnore
     private List<DeptManager> deptManager;
@@ -34,7 +31,7 @@ public class Departments {
     @Override
     public String toString() {
         return "Departments{" +
-                "deptNo=" + deptNo +
+                "department=" + deptNo +
                 ", deptName='" + deptName +
                 '}';
     }
