@@ -44,6 +44,8 @@ public class EmployeesEndpoint {
 
     /**
      * This is for endpoint 2 search employee by employee number
+     * Below is the Query Params for user reference
+     * Key empNo - the employee number (Integer) and is mandatory
      * @param empNo employee number
      * @return response
      */
@@ -76,6 +78,9 @@ public class EmployeesEndpoint {
 
     /**
      * This is for endpoint 3 search employee by department number with page number
+     * Below is the Query Params for user reference
+     * Key empNo - the employee number (Integer) and is mandatory
+     * Key pgNo - the page number (Integer), by default is 1
      * @param deptNo department number
      * @param pgNo page number
      * @return response
@@ -110,6 +115,21 @@ public class EmployeesEndpoint {
 
     /**
      * This is for endpoint 4 to promote an employee
+     * Below is the JSON format for user refer to the structure
+     *{
+     *   "empNo": 10003,
+     *   "newSalary": 90000,
+     *   "newTitle": "Manager",
+     *   "newDeptNo": "d001",
+     *   "isManager": true
+     *}
+     * Where:
+     * empNo is the employee number (Integer) and is mandatory
+     * At least one from the below will be fine:
+     * newSalary is the new salary (Integer)
+     * newtitle is the new title (String)
+     * newDeptNo is the new department number (String)
+     * isManager is the indicator whether promote an employee to manager (Boolean)
      * @param promotion promotion
      * @return response
      */
