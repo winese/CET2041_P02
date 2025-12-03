@@ -24,24 +24,42 @@ public class Service {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
 
-        em.getTransaction().begin();
-        List<Departments> departments = employeesRepo.getAllDepartments();
-        em.close();
-        if (departments != null) return departments;
-        else return null;
+        try {
+            em.getTransaction().begin();
+            List<Departments> departments = employeesRepo.getAllDepartments();
+            if (!departments.isEmpty())
+                return departments;
+            else
+                return null;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("There is issue during query.", e);
+        }
+        finally{
+            em.close();
+        }
         // ! ADD MORE TEST CASES
     }
 
     // ! ENDPOINT 2
-    public Employees getEmployeeById(int id) {
+    public Employees getEmployeeById(long id) {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
 
-        em.getTransaction().begin();
-        Employees employees = employeesRepo.findEmployee(id);
-        em.close();
-        if (employees != null) return employees;
-        else return null;
+        try {
+            em.getTransaction().begin();
+            Employees employees = employeesRepo.findEmployee(id);
+            if (employees != null)
+                return employees;
+            else
+                return null;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("There is issue during query.", e);
+        }
+        finally{
+            em.close();
+        }
         // ! ADD MORE TEST CASES
     }
 
@@ -51,11 +69,20 @@ public class Service {
         EntityManager em = emf.createEntityManager();
         EmployeesRepo employeesRepo = new EmployeesRepo(em);
 
-        em.getTransaction().begin();
-        List<EndPoint3DTO> list = employeesRepo.getEndPoint3Infos(deptNo, pgNo);
-        em.close();
-        if (list != null) return list;
-        else return null;
+        try {
+            em.getTransaction().begin();
+            List<EndPoint3DTO> list = employeesRepo.getEndPoint3Infos(deptNo, pgNo);
+            if (!list.isEmpty())
+                return list;
+            else{
+                return null;}
+        }
+        catch (Exception e) {
+            throw new RuntimeException("There is issue during query.", e);
+        }
+        finally{
+            em.close();
+        }
         // ! ADD MORE TEST CASES
     }
 
@@ -66,9 +93,6 @@ public class Service {
         EntityTransaction transaction = em.getTransaction();
 
         //Checking
-        if (promotion == null) {
-            return "Invalid parameters";
-        }
         if (promotion.getEmpNo() <= 0) {
             return "No Employee Number found";
         }
@@ -96,7 +120,8 @@ public class Service {
 
             // Changing Departments
             if (!Objects.equals(newDeptNo, "") && !Objects.equals(newDeptNo, null)
-                    && !Objects.equals(currDept.getDeptNo(), newDeptNo)) {
+                    && !Objects.equals(currDept.getDeptNo(), newDeptNo)
+                    && newDeptNo.length() == 4) {
                 dept = em.find(Departments.class, newDeptNo);
                 result = employeesRepo.insertNewDept(employee,
                         dept, currDept, newDeptNo);
@@ -105,15 +130,22 @@ public class Service {
                 }
                 System.out.println("Changed departments");
             }
+            else if (newDeptNo.length() > 4) {
+                return "Invalid department number";
+            }
 
             // Changing Titles
             if (!Objects.equals(newTitle, "") && !Objects.equals(newTitle, null)
-                    && !Objects.equals(currTitle.getTitle(), newTitle)) {
+                    && !Objects.equals(currTitle.getTitle(), newTitle)
+                    && newTitle.length() < 50) {
                 result = employeesRepo.insertNewTitle(employee, currTitle, newTitle);
                 if (result != null) {
                     return result;
                 }
                 System.out.println("Changed title");
+            }
+            else if (newTitle.length() > 50) {
+                return "Invalid title, title must within 50 characters";
             }
 
             // Promote to Manager
@@ -126,12 +158,15 @@ public class Service {
             }
 
             // Changing Salary
-            if (newSalary > 0 && newSalary > currSalary.getSalary()) {
+            if ((newSalary > 0 && newSalary <= 99999999999L) && newSalary > currSalary.getSalary() ) {
                 result = employeesRepo.insertNewSalary(employee, currSalary, newSalary);
                 if (result != null) {
                     return result;
                 }
                 System.out.println("Changed Salary");
+            }
+            else if (newSalary > 99999999999L ||  newSalary < 0) {
+                return "Invalid new salary";
             }
             transaction.commit();
             System.out.println("Transaction committed");

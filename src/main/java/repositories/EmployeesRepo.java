@@ -25,7 +25,7 @@ public class EmployeesRepo {
     }
 
     // ! ENDPOINT 2 & 4
-    public Employees findEmployee(int empNo) {
+    public Employees findEmployee(long empNo) {
         return em.find(Employees.class, empNo);
     }
 
