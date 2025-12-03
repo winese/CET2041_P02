@@ -6,15 +6,15 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
+//@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-//@ToString
+@ToString
 public class DeptManagerId implements Serializable {
 
-    private int employees;
+    private long employees;
     private String department;
 
     @Override
@@ -31,11 +31,11 @@ public class DeptManagerId implements Serializable {
         return Objects.hash(department, employees);
     }
 
-    @Override
-    public String toString() {
-        return "DeptManagerId{" +
-                "employees=" + employees +
-                "department=" + department +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "DeptManagerId{" +
+//                "employees=" + employees +
+//                "department=" + department +
+//                '}';
+//    }
 }

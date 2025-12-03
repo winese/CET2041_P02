@@ -20,7 +20,7 @@ import java.time.LocalDate;
 })
 @Getter
 @Setter
-//@ToString
+@ToString
 public class Titles {
 //    @Id
 //    @JsonIgnore
@@ -43,13 +43,13 @@ public class Titles {
     @JsonBackReference
     private Employees employees;
 
-    @Override
-    public String toString() {
-        return "Titles{" +
-//                "employees=" + employees +
-                "title=" + title +
-                ", fromDate='" + fromDate +
-                ", toDate='" + toDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Titles{" +
+////                "employees=" + employees +
+//                "title=" + title +
+//                ", fromDate='" + fromDate +
+//                ", toDate='" + toDate +
+//                '}';
+//    }
 }

@@ -1,6 +1,5 @@
 package entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -48,13 +47,13 @@ public class DeptManager {
     private LocalDate toDate;
 
 
-    @Override
-    public String toString() {
-        return "DeptManager{" +
-//                "employees=" + employees +
-//                "department=" + department +
-                ", fromDate='" + fromDate +
-                ", toDate=" + toDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "DeptManager{" +
+////                "employees=" + employees +
+////                "department=" + department +
+//                ", fromDate='" + fromDate +
+//                ", toDate=" + toDate +
+//                '}';
+//    }
 }

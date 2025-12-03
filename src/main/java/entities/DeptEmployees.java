@@ -1,6 +1,5 @@
 package entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -51,13 +50,13 @@ public class DeptEmployees {
 //    @JoinColumn(name = "")
 //    private LocalDate date;
 
-    @Override
-    public String toString() {
-        return "DeptEmployees{" +
-                "employees=" + employees +
-                "department=" + department +
-                ", fromDate='" + fromDate +
-                ", toDate=" + toDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "DeptEmployees{" +
+//                "employees=" + employees +
+//                "department=" + department +
+//                ", fromDate='" + fromDate +
+//                ", toDate=" + toDate +
+//                '}';
+//    }
 }

@@ -3,6 +3,8 @@ package DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,8 +13,8 @@ import lombok.*;
 @ToString
 public class Promotion {
     @JsonProperty(required = true)
-    private int empNo;
-    private int newSalary;
+    private long empNo;
+    private BigDecimal newSalary;
     private String newTitle;
     private String newDeptNo;
     @JsonProperty("isManager")

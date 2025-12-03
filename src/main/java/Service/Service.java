@@ -9,6 +9,7 @@ import EntityManagerFactory.AppEntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import repositories.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -96,7 +97,7 @@ public class Service {
         if (promotion.getEmpNo() <= 0) {
             return "No Employee Number found";
         }
-        if (promotion.getNewSalary() <= 0 && !promotion.isManager()
+        if (promotion.getNewSalary().compareTo(BigDecimal.ZERO) > 0 && !promotion.isManager()
                 && (promotion.getNewTitle() == null || promotion.getNewTitle().isEmpty())
                 && (promotion.getNewDeptNo() == null || promotion.getNewDeptNo().isEmpty())) {
             return "No promotion parameters found";
@@ -104,9 +105,9 @@ public class Service {
 
         try {
             String result = null;
-            int empNo = promotion.getEmpNo();
+            long empNo = promotion.getEmpNo();
             Employees emp = employeesRepo.findEmployee(empNo);
-            int newSalary = promotion.getNewSalary();
+            BigDecimal newSalary = promotion.getNewSalary();
             String newTitle = promotion.getNewTitle();
             String newDeptNo = promotion.getNewDeptNo();
             boolean isManager = promotion.isManager();
@@ -158,16 +159,17 @@ public class Service {
             }
 
             // Changing Salary
-            if ((newSalary > 0 && newSalary <= 99999999999L) && newSalary > currSalary.getSalary() ) {
+            if ((newSalary.compareTo(BigDecimal.ZERO) > 0) && newSalary.compareTo(currSalary.getSalary()) > 0 ) {
                 result = employeesRepo.insertNewSalary(emp, currSalary, newSalary);
                 if (result != null) {
                     return result;
                 }
                 System.out.println("Changed Salary");
             }
-            else if (newSalary > 99999999999L ||  newSalary < 0) {
+            else if (newSalary.compareTo(BigDecimal.ZERO) < 0) {
                 return "Invalid new salary";
             }
+
             transaction.commit();
             System.out.println("Transaction committed");
                 return result;

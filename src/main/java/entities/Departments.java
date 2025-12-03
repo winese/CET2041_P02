@@ -1,7 +1,6 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Departments {
     @Id
     @Column(name="dept_no")
@@ -28,11 +28,11 @@ public class Departments {
     @JsonIgnore
     private List<DeptManager> deptManager;
 
-    @Override
-    public String toString() {
-        return "Departments{" +
-                "department=" + deptNo +
-                ", deptName='" + deptName +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Departments{" +
+//                "department=" + deptNo +
+//                ", deptName='" + deptName +
+//                '}';
+//    }
 }

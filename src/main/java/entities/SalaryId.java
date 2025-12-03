@@ -6,14 +6,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Embeddable
+//@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-//@ToString
+@ToString
 public class SalaryId implements Serializable {
-    private int employees;
+    private long employees;
     private LocalDate fromDate;
 
     @Override
@@ -30,11 +30,11 @@ public class SalaryId implements Serializable {
         return Objects.hash(employees, fromDate);
     }
 
-    @Override
-    public String toString() {
-        return "SalaryId{" +
-                "employees=" + employees +
-                "fromDate=" + fromDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "SalaryId{" +
+//                "employees=" + employees +
+//                "fromDate=" + fromDate +
+//                '}';
+//    }
 }

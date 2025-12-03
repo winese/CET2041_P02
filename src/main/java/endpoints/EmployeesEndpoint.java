@@ -61,7 +61,7 @@ public class EmployeesEndpoint {
         Service service = new Service();
 
         try {
-            if (empNo <= 0 || empNo > 99999999999L) {
+            if (empNo <= 0) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Invalid employee number")
                         .build();

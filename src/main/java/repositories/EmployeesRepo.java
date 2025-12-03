@@ -4,8 +4,8 @@ import DTO.EndPoint3DTO;
 import entities.*;
 import jakarta.persistence.EntityManager;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -156,7 +156,7 @@ public class EmployeesRepo {
         }
     }
 
-    public String insertNewSalary(Employees employee, Salaries currSalary, int newSalary) {
+    public String insertNewSalary(Employees employee, Salaries currSalary, BigDecimal newSalary) {
         try {
             Salaries salary = new Salaries();
             LocalDate newToDate = LocalDate.of(9999,1,1);

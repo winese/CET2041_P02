@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -20,14 +21,14 @@ import java.time.LocalDate;
 })
 @Getter
 @Setter
-//@ToString
+@ToString
 public class Salaries {
 //    @Id
 //    @JsonIgnore
 //    @JoinColumn(name="emp_no")
 //    private int employees;
     @Column(name = "salary")
-    private int salary;
+    private BigDecimal salary;
     @Id
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name="from_date")
@@ -42,13 +43,13 @@ public class Salaries {
     @JsonBackReference
     private Employees employees;
 
-    @Override
-    public String toString() {
-        return "Salaries{" +
-//                "employees=" + employees +
-                "salary=" + salary +
-                ", fromDate='" + fromDate +
-                ", toDate='" + toDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Salaries{" +
+////                "employees=" + employees +
+//                "salary=" + salary +
+//                ", fromDate='" + fromDate +
+//                ", toDate='" + toDate +
+//                '}';
+//    }
 }

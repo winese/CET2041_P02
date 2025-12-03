@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class EndPoint3DTO {
-    private int empNo;
+    private long empNo;
     private String firstName;
     private String lastName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

@@ -24,11 +24,11 @@ import CustomEnum.Gender;
 )
 @Getter
 @Setter
-//@ToString
+@ToString
 public class Employees {
     @Id
     @Column(name = "emp_no")
-    private int empNo;
+    private long empNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "birth_date")
     private LocalDate birthDate;
@@ -56,15 +56,15 @@ public class Employees {
     @JsonManagedReference
     private List<DeptManager> deptManager;
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "employees=" + empNo +
-                "birthDate=" + birthDate +
-                ", firstName='" + firstName + ' ' +
-                ", lastName='" + lastName + ' ' +
-                ", gender='" + gender +
-                ", hireDate=" + hireDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Employee{" +
+//                "employees=" + empNo +
+//                "birthDate=" + birthDate +
+//                ", firstName='" + firstName + ' ' +
+//                ", lastName='" + lastName + ' ' +
+//                ", gender='" + gender +
+//                ", hireDate=" + hireDate +
+//                '}';
+//    }
 }

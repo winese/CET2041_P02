@@ -9,10 +9,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-//@ToString
+@ToString
 public class DeptEmployeesId implements Serializable {
 
-    private int employees;
+    private long employees;
     private String department;
 
     @Override
@@ -30,11 +30,11 @@ public class DeptEmployeesId implements Serializable {
         return Objects.hash(department, employees);
     }
 
-    @Override
-    public String toString() {
-        return "DeptEmployeesId{" +
-                "employees=" + employees +
-                "department=" + department +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "DeptEmployeesId{" +
+//                "employees=" + employees +
+//                "department=" + department +
+//                '}';
+//    }
 }
